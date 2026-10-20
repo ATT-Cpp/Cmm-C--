@@ -13,9 +13,7 @@ void Compiler::Lexer(std::string input)
     
       ++i;
       currentWord += input[i];
-  }
-    }
-
+    
     for(auto&AI : Keywords)
     {
       if(currentWord == AI)
@@ -59,11 +57,35 @@ void Compiler::Lexer(std::string input)
         currentWord+=input[i];
       }
 
-      
+      if(currentWord == "[")
+      {
+        Tokens.push_back( Compiler { TokenType::LBRACKET } );
+        ++i;
+        currentWord+=input[i];
+      }
+
+      if(currentWord == "]")
+      {
+        Tokens.push_back( Compiler { TokenType::RBRACKET } );
+        ++i;
+        currentWord+=input[i];
+      }
+
+      if(currentWord == "(")
+      {
+        Tokens.push_back( Compiler { TokenType::LPARENTHESES } );
+        ++i;
+        currentWord+=input[i];
+      }
+
+      if(currentWord == ")")
+      {
+        Tokens.push_back( Compiler { TokenType::RPARENTHESES } );
+        ++i;
+        currentWord+=input[i];
+      }
+
+    }
 
     }
       
-}
-
-
-    
