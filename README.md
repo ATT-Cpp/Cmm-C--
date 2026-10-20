@@ -10,9 +10,9 @@ Ideas taken from other languages: Rust, C++ und C.
 
 0.1 - 0.8 Bug and Compiler Errors fix
 
-0.9 - 1 Line Tokenizer
+0.9  Line Tokenizer
 
-1.0 - adding AST and making Lexer tokenize 1 whole file
+1.0 - Parser + Entire File Lexer
 
 1.1 - 1.9 Compiler bugs and errors fix
 
