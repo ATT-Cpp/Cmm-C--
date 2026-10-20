@@ -1,1 +1,63 @@
+Project: Programming Language.
+
+----------------------------
+Knowledge GAPS write here
+----------------------------
+
+-
+-
+-
+-
+-
+
+-----------------------------
+Main Systems
+-----------------------------
+Compiler
+
+Lexer
+- Source Code -> Tokens
+
+Parser
+- Tokens -> Program Structure
+
+AST
+- Stores Program Structure
+
+Semantic Analysis
+- Check types
+- Check variables exist
+- Check functions exist
+
+Code Generator
+- AST -> Output
+
+-----------------------------------------
+Syntax for language
+-----------------------------------------
+-fn funcname() []
+
+-this ->;
+-return;
+
+-import stdlib
+
+-if, else, for , while , switch, case, break, continue;
+
+-int, float, bool, char, void, string;
+
+-const, global, STATIC var = ----;
+
+-variable creation:
+
+-var auto = 5, "hello" etc;
+-var int h1 = 5;
+
+-language rules: case sensitive, not space sensitive, semicolon at the end of sentence, blocks use [], reserved keywords, parantheses;
+
+
+
+
+
+
 
