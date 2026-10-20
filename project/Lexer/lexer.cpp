@@ -9,7 +9,7 @@ void Compiler::Lexer(std::string input)
   char currentSchar;
   for(int i = 0; i < input.size(); ++i)
   {
-    if(isspace(currentWord) {
+    if(isspace(currentSchar) {
     
       ++i;
       currentWord += input[i];
@@ -31,7 +31,7 @@ void Compiler::Lexer(std::string input)
           currentSchar+=input[i];
       }
 
-       if(currentWord == "==")
+       if(currentWord.find("=="))
        {
          Tokens.push_back( Compiler { TokenType::EQUALTO } );
          ++i;
@@ -42,49 +42,49 @@ void Compiler::Lexer(std::string input)
       if(isalpha(currentSchar))
       {
         
-        if(currentSchar == "=")
+        if(currentSchar.find("="))
         {
           Tokens.push_back( Compiler { TokenType::ASSIGNMENTOP } );
           ++i;
           currentSchar+=input[i];
         }
 
-        if(currentSchar == "!")
+        if(currentSchar.find("!"))
         {
           Tokens.push_back( Compiler { TokenType::NOT } );
           ++i;
           currentSchar+=input[i];
         }
 
-        if(currentSchar == ";")
+        if(currentSchar.find(";"))
         {
           Tokens.push_back( Compiler { TokenType::SEMICOLON } );
           ++i;
           currentSchar+=input[i];
         }
 
-        if(currentSchar == "[")
+        if(currentSchar.find("["))
         {
           Tokens.push_back( Compiler { TokenType::LBRACKET } );
           ++i;
           currentSchar+=input[i];
         }
 
-        if(currentSchar == "]")
+        if(currentSchar.find("]"))
         {
           Tokens.push_back( Compiler { TokenType::RBRACKET } );
           ++i;
           currentSchar+=input[i];
         }
 
-        if(currentSchar == "(")
+        if(currentSchar.find("("));
         {
           Tokens.push_back( Compiler { TokenType::LPARENTHESES } );
           ++i;
           currentSchar+=input[i];
         }
 
-        if(currentSchar == ")")
+        if(currentSchar.find(")"))
         {
           Tokens.push_back( Compiler { TokenType::RPARENTHESES } );
           ++i;
