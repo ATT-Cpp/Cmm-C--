@@ -1,4 +1,4 @@
-#include<lexer.h>
+#include "Lexer/lexer.h"
 #include<iostream>
 #include<vector>
 #include<string>
@@ -23,7 +23,10 @@ class IfStatement
     public:
       Ifstate ParseIfStatement();
       void advance();
-      void Consume();
+      void Consume(std::vector<Token> Tokens);
 };
 
-class Variable
+class VariableDeclaration
+{
+    private:
+      
