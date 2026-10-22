@@ -32,3 +32,5 @@ class Compiler
         void Lexer(std::string input);
 };
         
+extern std::vector <std::string> Keywords;
+extern std::vector <Token> Tokens;
