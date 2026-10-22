@@ -29,4 +29,20 @@ class IfStatement
 class VariableDeclaration
 {
     private:
-      
+      struct VariableDecl
+      {
+        std::vector<std::string> Keywords;
+        std::vector<Token> comp::Tokens;
+      };
+      std::vector <VariableDecl> vardecl;
+      int current = 0;
+
+      VariableDecleration(Tokens t) : Tokens(t) { }
+
+    public:
+      VariableDecleration ParseVarDecl();
+      void advance();
+      void Consume(std::vector<Token> Tokens);
+};
+    
+   
