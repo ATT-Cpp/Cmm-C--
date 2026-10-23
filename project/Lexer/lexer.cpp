@@ -15,26 +15,55 @@ void Compiler::Lexer(std::string input)
       ++i;
       currentWord += input[i];
       currentSchar += input[i];
-    for(auto&AI : Keywords)
-    {
-      if(currentWord == AI)
-      {
+      
+      if(currentWord == "if") {
         Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
         ++i;
-        currentWord += input[i];
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+      if(currentWord == "fn") {
+        Tokens.push_back( Compiler { TokenType::KEYWORD } );
+          Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
         currentSchar+=input[i];
       }
 
-      if(currentWord != AI) {
+      if(currentWord == "return") {
+        Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+      if(currentWord == "import") {
+        Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+      if(currentWord == "else") {
+        Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+      
+      if(currentWord != AI) {   //create identifier vec
           Tokens.push_back( Compiler { TokenType::IDENTIFIER } );
           ++i;
           currentWord+=input[i];
           currentSchar+=input[i];
       }
 
-       if(currentWord.find("=="))
+       if(currentWord == "==")
        {
          Tokens.push_back( Compiler { TokenType::EQUALTO } );
+         Syntax.push_back(currentWord);
          ++i;
          currentWord+=input[i];
          currentSchar+=input[i];
@@ -95,4 +124,5 @@ void Compiler::Lexer(std::string input)
     }
 
     }
+}
       
