@@ -14,13 +14,55 @@ class Ifstatement
       Ifstatement ParseIfStatement()
       {
           Token TokenType;
-          for(auto& ai : Tokens)
+          for(auto& ai : tokens)
           {
-              for(auto i = 0; i < Tokens.size(); ++i)
+              for(auto i = 0; i < tokens.size(); ++i)
               {
-                  ai = Tokens[i];
-                  
-                  
+                  ai = tokens[i];
+                  if(tokens.type == KEYWORDS) {
+                      ++i;
+                      ai = tokens[i];
+                      if(tokens.keywords == "if") {
+                          ++i;
+                          ai = tokens[i];
+                          if(tokens.type == LPARENTHESES) {
+                              ++i;
+                              ai = tokens[i];
+                              if(tokens.type == KEYWORDS) {
+                                  ++i;
+                                  ai = tokens[i];
+                                  if(tokens.type == IDENTIFIER) {
+                                      ++i;
+                                      ai = tokens[i];
+                                      if(tokens.type == ASSIGNMENTOP || tokens.type == EQUALTO || tokens.type == NOT) {
+                                          ++i;
+                                          ai = tokens[i];
+                                          if(tokens.type == IDENTIFIER) {
+                                              ++i;
+                                              ai = tokens[i];
+                                              if(tokens.type == RPARENTHESES) {
+                                                  ++i;
+                                                  ai = tokens[i];
+                                                  if(tokens.type == LBRACKET) {
+                                                      ++i;
+                                                      ai = tokens[i];
+                                                      if(tokens.type == RBRACKET) {
+                                                          ++i;
+                                                          ai = tokens[i];
+                                                      }
+                                                  }
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      }
+
 }; 
                                           
             
