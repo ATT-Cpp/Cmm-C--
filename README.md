@@ -6,20 +6,65 @@ Ideas taken from other languages: Rust, C++ und C.
 
 # FUTURE VERSION LIST
 
-0.0 - creation of compiler
+0.0
+- Compiler Creation
 
-0.1 - 0.8 Bug and Compiler Errors fix
+0.1 - 0.8
+- Compiler Errors
+- Lexer Bugs
+- General Fixes
 
-0.9  Line Tokenizer
+0.9
+- Line Tokenizer
+- Stable Token Stream
 
-1.0 - Parser + Entire File Lexer
+1.0
+- Entire File Lexer
+- Parser V1
 
-1.1 - 1.9 Compiler bugs and errors fix
+1.1 - 1.9
+- Parser Fixes
+- Statement Support
+- Compiler Error Fixes
 
-2.0 - Multiple files supported parser and semantic analysis
+2.0
+- AST Creation
+- Parser -> AST
 
-2.1 - 2.9 Compiler bugs and errors fix
+2.1 - 2.9
+- AST Fixes
+- AST Improvements
 
-3.0 - Final Code Generator. Directly compiled to machine code.
+3.0
+- Semantic Analysis
+- Variable Checking
+- Function Checking
+- Type Checking
 
-Up and Above 3.0 is UI, Bugs and compiling fix and last update will be announced when reaches there
+3.1 - 3.9
+- Semantic Fixes
+- Analysis Improvements
+
+4.0
+- Multi File Support
+
+4.1 - 4.9
+- Multi File Fixes
+
+5.0
+- Code Generator
+
+5.1 - 5.9
+- Code Generation Fixes
+- Optimizations
+
+6.0
+- Direct Machine Code Generation
+
+6.1+
+- CLI Improvements
+- UI
+- Optimizations
+- Language Expansion
+- Compiler Improvements
+- Bug Fixes

@@ -2,47 +2,32 @@
 #include<iostream>
 #include<vector>
 #include<string>
-class IfStatement
-{
-    private:
-      struct Ifstate
-      {
-        std::string identifier1,
-        std::string op,
-        std::string symbol,
-        std::string identifier2,
-        std::string AND,
-        std::string OR,
-        std::string NOT,
-      };
-      int current = 0;
-      std::vector<Ifstate> ifstmt;
-
-      IfStatement(Tokens t) : Tokens(t) { }
-      
+// ----------------------------------------------
+//                     LOOPS
+//-----------------------------------------------
+class ControlFlowStatement //(Todo: implement this class)
+{ 
     public:
-      Ifstate ParseIfStatement();
-      void advance();
-      void Consume(std::vector<Token> Tokens);
+      inline void ParseIfStatement(int& i, int& b);
+      inline void ParseElseStatement(int& i, int& b);
+      inline void ParseElseIfStatement(int& i, int& b);
 };
 
-class VariableDeclaration
-{
-    private:
-      struct VariableDecl
-      {
-        std::vector<std::string> Keywords;
-        std::vector<Token> comp::Tokens;
-      };
-      std::vector <VariableDecl> vardecl;
-      int current = 0;
+class WhileStatement {//(Todo: implement this class)
+    public:
+        void ParseWhileStatement(int& i);
+};
 
-      VariableDecleration(Tokens t) : Tokens(t) { }
+class ForStatement {//(Todo: implement this class)
 
     public:
-      VariableDecleration ParseVarDecl();
-      void advance();
-      void Consume(std::vector<Token> Tokens);
+        void ParseForStatement(int& i);
+        void ParseArguments(int& i);
 };
-    
-   
+
+class VariableDeclaration//(Todo: implement this class)
+{
+
+    public:
+      void ParseVarDecl(int& i);
+};

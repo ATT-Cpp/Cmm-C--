@@ -5,32 +5,29 @@
 
 class Compiler
 {
-    private:
+    public:
         enum Token {
 
         KEYWORD,
         IDENTIFIER,
 
-        LPARENTHESES,
-        RPARENTHESES,
-
-        LBRACKET,
-        RBRACKET,
-
-        ASSIGNMENTOP,
-        EQUALTO,
-        NOT,
-        SEMICOLON,
+        SYMBOLS, //like ; [] ()
+        STRING,
+        INT,
+        CHAR,
+        BOOL,
         
 
-        } TokenType
+        };
+        struct Tokens {
+            Token TokenType;
+            std::string Value;
+        };
 
-        std::vector <std::string> Keywords { "fn", "if", "else", "for", "while", "switch", "case", "break", "continue", "int", "float", "double", "bool", "char", "void", "string", "const", "global", "var", "auto", "return", "import" };
-        std::vector <Token> Tokens;
+        inline static std::vector<std::string> Symbol { "<", ">", "==", "=", "!=", ">=", "<=", "[", "]", "(", ")", "||", "!", "&&" };
+        inline static std::vector<std::string> Keywords { "fn", "if", "else", "for", "while", "switch", "case", "break", "continue", "int", "float", "double", "bool", "char", "void", "string", "const", "global", "var", "auto", "return", "import" };
+        inline static std::vector<Tokens> tokens;
 
     public:
         void Lexer(std::string input);
 };
-        
-extern std::vector <std::string> Keywords;
-extern std::vector <Token> Tokens;
