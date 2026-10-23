@@ -8,29 +8,26 @@ void Compiler::Lexer(std::string input)
 {
   std::string currentWord;
   char currentSchar;
-  for(int i = 0; i + 1 < input.size(); ++i)
+  for(int i = 0; i + 1 < input.size();i++ )
   {
      currentSchar = input[i];
-     currentWord = input[i];
-     if(currentSchar == " ") {
-               ++i;
+      if(!isspace(currentSchar)) {
         currentWord+=input[i];
-        currentSchar+=input[i];
-     }
-      for (auto&AI : Keywords) {
+        currentSchar=input[i];
+      }
       if(currentWord == "if") {
         Tokens.push_back( Compiler { TokenType::KEYWORD } );
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
       if(currentWord == "fn") {
         Tokens.push_back( Compiler { TokenType::KEYWORD } );
           Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "return") {
@@ -38,28 +35,28 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
       if(currentWord == "import") {
         Tokens.push_back( Compiler { TokenType::KEYWORD } );
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
       if(currentWord == "else") {
         Tokens.push_back( Compiler { TokenType::KEYWORD } );
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
       if(currentWord == "for") {
          Tokens.push_back( Compiler { TokenType::KEYWORD } );
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "while") {
@@ -67,7 +64,7 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "switch") {
@@ -75,7 +72,7 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "case") {
@@ -83,7 +80,7 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "break") {
@@ -91,7 +88,7 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "int") {
@@ -99,7 +96,7 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "float") {
@@ -107,7 +104,7 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "bool") {
@@ -115,7 +112,7 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "char") {
@@ -123,7 +120,7 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "string") {
@@ -131,7 +128,7 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "void") {
@@ -139,7 +136,7 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "var")
@@ -148,7 +145,7 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "auto") {
@@ -156,7 +153,7 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
 
       if(currentWord == "const")
@@ -165,16 +162,17 @@ void Compiler::Lexer(std::string input)
         Syntax.push_back(currentWord);
         ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       }
       
-      if(std::find(AI.begin(), AI.end(), currentWord) != AI.end())
+      if(std::find(Keywords.begin(), Keywords.end(), currentWord) != Keywords.end())
       {
-        Tokens.push_back( Compiler { TokenType::KEYWORD } );
          ++i;
         currentWord+=input[i];
-        currentSchar+=input[i];
+        currentSchar=input[i];
       } else {
+        Tokens.push_back(Compiler{TokenType::IDENTIFIER});
+
         Identify.push_back(currentWord);
       }
         
@@ -184,7 +182,7 @@ void Compiler::Lexer(std::string input)
          Syntax.push_back(currentWord);
          ++i;
          currentWord+=input[i];
-         currentSchar+=input[i];
+         currentSchar=input[i];
        }
       
         
@@ -193,7 +191,7 @@ void Compiler::Lexer(std::string input)
           Tokens.push_back( Compiler { TokenType::ASSIGNMENTOP } );
           Symbols.push_back(currentSchar);
           ++i;
-          currentSchar+=input[i];
+          currentSchar=input[i];
         }
 
         if(currentSchar == '!')
@@ -201,7 +199,7 @@ void Compiler::Lexer(std::string input)
           Tokens.push_back( Compiler { TokenType::NOT } );
           Symbols.push_back(currentSchar);
           ++i;
-          currentSchar+=input[i];
+          currentSchar=input[i];
         }
 
         if(currentSchar == ';')
@@ -209,7 +207,7 @@ void Compiler::Lexer(std::string input)
           Tokens.push_back( Compiler { TokenType::SEMICOLON } );
           Symbols.push_back(currentSchar);
           ++i;
-          currentSchar+=input[i];
+          currentSchar=input[i];
         }
 
         if(currentSchar == '[')
@@ -217,7 +215,7 @@ void Compiler::Lexer(std::string input)
           Tokens.push_back( Compiler { TokenType::LBRACKET } );
           Symbols.push_back(currentSchar);
           ++i;
-          currentSchar+=input[i];
+          currentSchar=input[i];
         }
 
         if(currentSchar == ']')
@@ -225,7 +223,7 @@ void Compiler::Lexer(std::string input)
           Tokens.push_back( Compiler { TokenType::RBRACKET } );
           Symbols.push_back(currentSchar);
           ++i;
-          currentSchar+=input[i];
+          currentSchar=input[i];
         }
 
         if(currentSchar == '(')
@@ -233,7 +231,7 @@ void Compiler::Lexer(std::string input)
           Tokens.push_back( Compiler { TokenType::LPARENTHESES } );
           Symbols.push_back(currentSchar);
           ++i;
-          currentSchar+=input[i];
+          currentSchar=input[i];
         }
 
         if(currentSchar == ')')
@@ -241,7 +239,7 @@ void Compiler::Lexer(std::string input)
           Tokens.push_back( Compiler { TokenType::RPARENTHESES } );
           Symbols.push_back(currentSchar);
           ++i;
-          currentSchar+=input[i];
+          currentSchar=input[i];
         }
       }
 
