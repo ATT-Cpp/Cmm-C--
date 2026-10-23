@@ -8,14 +8,16 @@ void Compiler::Lexer(std::string input)
 {
   std::string currentWord;
   char currentSchar;
-  for(int i = 0; i < input.size(); ++i)
+  for(int i = 0; i + 1 < input.size(); ++i)
   {
-    if(isspace(currentSchar)) {
-    
-      ++i;
-      currentWord += input[i];
-      currentSchar += input[i];
-      
+     currentSchar = input[i];
+     currentWord = input[i];
+     if(currentSchar == " ") {
+               ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+     }
+      for (auto&AI : Keywords) {
       if(currentWord == "if") {
         Tokens.push_back( Compiler { TokenType::KEYWORD } );
         Syntax.push_back(currentWord);
@@ -166,14 +168,16 @@ void Compiler::Lexer(std::string input)
         currentSchar+=input[i];
       }
       
-      if(currentWord != AI) {   //create identifier vec
-          Tokens.push_back( Compiler { TokenType::IDENTIFIER } );
-          Identify.push_back(currentWord);
-          ++i;
-          currentWord+=input[i];
-          currentSchar+=input[i];
+      if(std::find(AI.begin(), AI.end(), currentWord) != AI.end())
+      {
+        Tokens.push_back( Compiler { TokenType::KEYWORD } );
+         ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      } else {
+        Identify.push_back(currentWord);
       }
-
+        
        if(currentWord == "==")
        {
          Tokens.push_back( Compiler { TokenType::EQUALTO } );
@@ -183,12 +187,11 @@ void Compiler::Lexer(std::string input)
          currentSchar+=input[i];
        }
       
-      if(isalpha(currentSchar))
-      {
         
         if(currentSchar == '=')
         {
           Tokens.push_back( Compiler { TokenType::ASSIGNMENTOP } );
+          Symbols.push_back(currentSchar);
           ++i;
           currentSchar+=input[i];
         }
@@ -196,6 +199,7 @@ void Compiler::Lexer(std::string input)
         if(currentSchar == '!')
         {
           Tokens.push_back( Compiler { TokenType::NOT } );
+          Symbols.push_back(currentSchar);
           ++i;
           currentSchar+=input[i];
         }
@@ -203,6 +207,7 @@ void Compiler::Lexer(std::string input)
         if(currentSchar == ';')
         {
           Tokens.push_back( Compiler { TokenType::SEMICOLON } );
+          Symbols.push_back(currentSchar);
           ++i;
           currentSchar+=input[i];
         }
@@ -210,6 +215,7 @@ void Compiler::Lexer(std::string input)
         if(currentSchar == '[')
         {
           Tokens.push_back( Compiler { TokenType::LBRACKET } );
+          Symbols.push_back(currentSchar);
           ++i;
           currentSchar+=input[i];
         }
@@ -217,6 +223,7 @@ void Compiler::Lexer(std::string input)
         if(currentSchar == ']')
         {
           Tokens.push_back( Compiler { TokenType::RBRACKET } );
+          Symbols.push_back(currentSchar);
           ++i;
           currentSchar+=input[i];
         }
@@ -224,6 +231,7 @@ void Compiler::Lexer(std::string input)
         if(currentSchar == '(')
         {
           Tokens.push_back( Compiler { TokenType::LPARENTHESES } );
+          Symbols.push_back(currentSchar);
           ++i;
           currentSchar+=input[i];
         }
@@ -231,12 +239,14 @@ void Compiler::Lexer(std::string input)
         if(currentSchar == ')')
         {
           Tokens.push_back( Compiler { TokenType::RPARENTHESES } );
+          Symbols.push_back(currentSchar);
           ++i;
           currentSchar+=input[i];
         }
+      }
 
     }
 
     }
-}
+
       
