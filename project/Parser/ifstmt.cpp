@@ -14,9 +14,13 @@ class Ifstatement
       Ifstatement ParseIfStatement()
       {
           Token TokenType;
-          for(auto& i : Tokens)
+          for(auto& ai : Tokens)
           {
-              if(i 
+              for(auto i = 0; i < Tokens.size(); ++i)
+              {
+                  ai = Tokens[i];
+                  
+                  
 }; 
                                           
             
