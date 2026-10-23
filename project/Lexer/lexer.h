@@ -29,6 +29,7 @@ class Compiler
         std::vector <Token> Tokens;
         std::vector <std::string> Syntax;
         std::vector <std::string> Identify;
+        std::vector <char> Symbols;
 
     public:
         void Lexer(std::string input);
