@@ -52,9 +52,123 @@ void Compiler::Lexer(std::string input)
         currentWord+=input[i];
         currentSchar+=input[i];
       }
+      if(currentWord == "for") {
+         Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+
+      if(currentWord == "while") {
+         Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+
+      if(currentWord == "switch") {
+         Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+
+      if(currentWord == "case") {
+       Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+
+      if(currentWord == "break") {
+         Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+
+      if(currentWord == "int") {
+       Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+
+      if(currentWord == "float") {
+       Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+
+      if(currentWord == "bool") {
+         Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+
+      if(currentWord == "char") {
+       Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+
+      if(currentWord == "string") {
+       Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+
+      if(currentWord == "void") {
+       Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+
+      if(currentWord == "var")
+      {
+         Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+
+      if(currentWord == "auto") {
+       Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
+
+      if(currentWord == "const")
+      {
+         Tokens.push_back( Compiler { TokenType::KEYWORD } );
+        Syntax.push_back(currentWord);
+        ++i;
+        currentWord+=input[i];
+        currentSchar+=input[i];
+      }
       
       if(currentWord != AI) {   //create identifier vec
           Tokens.push_back( Compiler { TokenType::IDENTIFIER } );
+          Identify.push_back(currentWord);
           ++i;
           currentWord+=input[i];
           currentSchar+=input[i];
