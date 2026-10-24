@@ -1,63 +1,74 @@
-#include "lexer.h"
-#include "parser.h"
-#include<iostream>
-#include<vector>
-#include<string>
-#include<algorithm>
-class Ifstatement
-{
-    public:
-        bool Consume(std::vector<Tokens> tokens, int& i,  std::string expected) { // in parser.h change the arguments
-                if(tokens[i].keywords != expected) {
-                    return false;
-                
-            }
-            ++i;
-            return true;
-            
-                
-        } 
-
-        void ParseIfStatement() { // in parser.h change the return type to void
-            for(int i = 0; i < tokens.size(); ++i) {                    
-                    if(Consume(tokens, i, "if")) {
-                        if(tokens[i].type == LPARENTHESES) {
+    #include "lexer.h"
+    #include "parser.h"
+    #include<iostream>
+    #include<vector>
+    #include<string>
+    #include<algorithm>
+    class Ifstatement
+    {
+        public:
+            bool Consume(std::vector<Tokens> tokens, int& i,  std::string expected) { // in parser.h change the arguments
+                    if(tokens[i].keywords != expected) {
+                        return false;
+                    
+                }
+                ++i;
+                return true;       
+            } 
+    
+            void parseExpression(int& i) {
+                if(tokens[i].type == LPARENTHESES) {
+                    ++i;
+                    while(tokens[i].type != RPARENTHESES) {
+                        
+                        if(tokens[i].type == NOT) {
                             ++i;
-                            if(tokens[i].type != NOT) {
+                            if(tokens[i].type == IDENTIFIER) {
                                 ++i;
-                                if(tokens[i].type == IDENTIFIER) {
+                                if(tokens[i].type == EQUALTO || tokens[i].type == GREATERTHEN || tokens[i].type == GREATERTHENOREQUALTO || tokens[i].type == LESSTHEN || tokens[i].type == LESSTHENOREQUALTO) {
                                     ++i;
-                                if(tokens[i].type == EQUALTO) { //add logic in lexer.cpp like > < etc.
-                                    ++i; 
                                     if(tokens[i].type == IDENTIFIER) {
                                         ++i;
-                                        
-                                        if(tokens[i].type == RPARENTHESES) {
-                                        ++i;
-                                        if(tokens[i].type == LBRACKET) {
+                                        while(tokens[i].type == AND || tokens[i].type == OR ) {
                                             ++i;
-                                                while(tokens[i].type != RBRACKET) {
-                                                    if(tokens[i].keywords == "if")
-                                                    {
-                                                        // parse inner if here
-                                                     }
-                                                    else if(tokens[i].keywords == "while") {
-                                                         //parse inner while here
-                                                    }
-    
-                                                    else if(tokens[i].keywords == "for") {
-                                                        //parse inner for herec
-                                                    }
+                                            if(tokens[i].type == IDENTIFIER) {
+                                            ++i;
+                                                if(tokens[i].type == EQUALTO || tokens[i].type == GREATERTHEN || tokens[i].type == GREATERTHENOREQUALTO || tokens[i].type == LESSTHEN || tokens[i].type == LESSTHENOREQUALTO) {
+                                                    ++i
+                                                    if(tokens[i].type == IDENTIFIER) {
                                                     ++i;
+                                                    }
                                                 }
-                                        }
+                                            }
                                         }
                                     }
                                 }
                             }
+                        } else {
+                             if(tokens[i].type == IDENTIFIER) {
+                                ++i;
+                                if(tokens[i].type == EQUALTO || tokens[i].type == GREATERTHEN || tokens[i].type == GREATERTHENOREQUALTO || tokens[i].type == LESSTHEN || tokens[i].type == LESSTHENOREQUALTO) {
+                                    ++i
+                                    if(tokens[i].type == IDENTIFIER) {
+                                        ++i;
+                                        while(tokens[i].type == AND || tokens[i].type == OR ) {
+                                            ++i;
+                                            if(tokens[i].type == IDENTIFIER) {
+                                            ++i;
+                                                if(tokens[i].type == EQUALTO || tokens[i].type == GREATERTHEN || tokens[i].type == GREATERTHENOREQUALTO || tokens[i].type == LESSTHEN || tokens[i].type == LESSTHENOREQUALTO) {
+                                                    ++i
+                                                    if(tokens[i].type == IDENTIFIER) {
+                                                    ++i;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                             }
                         }
                     }
+                }
             }
-        }
-};
-        
+    };
+            
