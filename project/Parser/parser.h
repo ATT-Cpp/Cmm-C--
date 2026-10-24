@@ -3,12 +3,7 @@
 #include<vector>
 #include<string>
 class IfStatement
-{
-    private:
-      int current = 0;
-
-      IfStatement(Tokens t) : Tokens(t) { }
-      
+{  
     public:
       void ParseIfStatement();
       void Consume(std::vector<Token> Tokens, int& i, std::string expected);
@@ -16,14 +11,14 @@ class IfStatement
 
 class VariableDeclaration
 {
-    private:
-      int current = 0;
-
-      VariableDecleration(Tokens t) : Tokens(t) { }
-
     public:
       void ParseVarDecl();
-      void Consume(std::vector<Token> Tokens);
+      void Consume(std::vector<Token> Tokens, int& i, std::string expected);
 };
-    
+
+class WhileStatement {
+    public:
+    void ParseWhileStatement();
+    void Consume(std::vector<Token> Tokens, int& i, std::string expected);
+};
    
