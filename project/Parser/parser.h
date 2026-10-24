@@ -6,24 +6,26 @@ class IfStatement
 {  
     private:
       struct ifstmt {
-          std::string identifier1,
-          std::string symbol,
-          std::string right
+          std::string Lidentifier,
+          std::string logicOp, //
+          std::string Ridentifier,
+          std::string logicGates,  
+      };
+      std::vector <ifstmt> IF;
     public:
-      void ParseIfStatement();
-      void Consume(std::vector<Token> tokens, int& i, std::string expected);
+      bool ParseIfStatement(int& i);
 };
 
 class VariableDeclaration
 {
     public:
-      void ParseVarDecl();
-      void Consume(std::vector<Token> tokens, int& i, std::string expected);
+      void ParseVarDecl(int& i);
 };
 
 class WhileStatement {
+    private:
+    
     public:
-    void ParseWhileStatement();
-    void Consume(std::vector<Token> tokens, int& i, std::string expected);
+    void ParseWhileStatement(int& i);
 };
    
