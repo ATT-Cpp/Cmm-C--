@@ -3,7 +3,7 @@
 #include<vector>
 #include<string>
 class IfStatement
-{  
+{ 
     private:
       struct ifstmt {
           std::string Lidentifier,
@@ -18,6 +18,16 @@ class IfStatement
 
 class VariableDeclaration
 {
+    private:
+    struct vardecl {
+        std::string Lindentifier,
+        std::string String;
+        int num;
+        float decimal;
+        bool TF;
+        char charecter;  
+    };
+    std::vector <vardecl> VD;
     public:
       void ParseVarDecl(int& i);
 };
