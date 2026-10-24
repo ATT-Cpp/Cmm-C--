@@ -4,6 +4,11 @@
 #include<string>
 class IfStatement
 {  
+    private:
+      struct ifstmt {
+          std::string identifier1,
+          std::string symbol,
+          std::string right
     public:
       void ParseIfStatement();
       void Consume(std::vector<Token> tokens, int& i, std::string expected);
