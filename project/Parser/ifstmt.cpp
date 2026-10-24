@@ -25,7 +25,7 @@ class Ifstatement
                             ++i;
                             if(tokens[i].type == IDENTIFIER) {
                                 ++i;
-                                if(tokens[i].type == EQUALTO || tokens[i].type == ASSIGNMENTOP || tokens[i].type == NOT || tokens[i].type == ||) { //add OR in lexer.cpp 
+                                if(tokens[i].type == EQUALTO ||  tokens[i].type == NOT || tokens[i].type == OR) { //add OR in lexer.cpp 
                                     ++i; 
                                     if(tokens[i].type == IDENTIFIER) {
                                         ++i;
