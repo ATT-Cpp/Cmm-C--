@@ -279,7 +279,7 @@ tokens.push_back({
           currentSchar=input[i];
         }
 
-        if(currentSchar == "||") {
+        if(currentWord == "||") {
           tokens.push_back({TokenType::OR});
           ++i;
           currentSchar = input[i];
