@@ -21,7 +21,7 @@ class Compiler
         EQUALTO,
         NOT,
         SEMICOLON,
-        
+        OR,
 
         } TokenType
         struct Tokens {
