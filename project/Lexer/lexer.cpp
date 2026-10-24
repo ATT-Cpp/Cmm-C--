@@ -225,7 +225,6 @@ tokens.push_back({
         if(currentSchar == '=')
         {
           tokens.push_back( { TokenType::ASSIGNMENTOP } );
-          Symbols.push_back(currentSchar);
           ++i;
           currentSchar=input[i];
         }
@@ -233,7 +232,6 @@ tokens.push_back({
         if(currentSchar == '!')
         {
           tokens.push_back(  { TokenType::NOT } );
-          Symbols.push_back(currentSchar);
           ++i;
           currentSchar=input[i];
         }
@@ -241,7 +239,6 @@ tokens.push_back({
         if(currentSchar == ';')
         {
           tokens.push_back(  { TokenType::SEMICOLON } );
-          Symbols.push_back(currentSchar);
           ++i;
           currentSchar=input[i];
         }
@@ -277,10 +274,15 @@ tokens.push_back({
           ++i;
           currentSchar=input[i];
         }
+
+        if(currentSchar == "||") {
+          tokens.push_back({TokenType::OR});
+          ++i;
+          currentSchar = input[i];
+        }
       }
 
     }
 
-    }
 
       
