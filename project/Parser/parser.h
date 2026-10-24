@@ -5,43 +5,24 @@
 class IfStatement
 {
     private:
-      struct Ifstate
-      {
-        std::string identifier1,
-        std::string op,
-        std::string symbol,
-        std::string identifier2,
-        std::string AND,
-        std::string OR,
-        std::string NOT,
-      };
       int current = 0;
-      std::vector<Ifstate> ifstmt;
 
       IfStatement(Tokens t) : Tokens(t) { }
       
     public:
-      Ifstate ParseIfStatement();
-      void advance();
-      void Consume(std::vector<Token> Tokens);
+      void ParseIfStatement();
+      void Consume(std::vector<Token> Tokens, int& i, std::string expected);
 };
 
 class VariableDeclaration
 {
     private:
-      struct VariableDecl
-      {
-        std::vector<std::string> Keywords;
-        std::vector<Token> comp::Tokens;
-      };
-      std::vector <VariableDecl> vardecl;
       int current = 0;
 
       VariableDecleration(Tokens t) : Tokens(t) { }
 
     public:
-      VariableDecleration ParseVarDecl();
-      void advance();
+      void ParseVarDecl();
       void Consume(std::vector<Token> Tokens);
 };
     
