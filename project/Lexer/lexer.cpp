@@ -1,10 +1,14 @@
 #include "lexer.h"
 #include<vector>
 #include<iostream>
-#include<string>
 #include<cctype>
 #include<locales>
-void Compiler::Lexer(std::string input)
+#include <filesystem>
+#include <fstream>
+#include <sstream>
+#include <string>
+
+void Compiler::Lexer(std::string& input)
 {
   std::string currentWord;
   char currentSchar;
