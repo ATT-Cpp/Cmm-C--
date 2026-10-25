@@ -21,6 +21,11 @@ class Compiler
         AND,
         OR,
         NOT,
+        STRING,
+        INT,
+        CHAR,
+        BOOL,
+        
 
         };
         struct Tokens {
