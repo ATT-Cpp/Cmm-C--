@@ -19,4 +19,15 @@ class HelperFunctions { //add this to Helpers/helpers.h
             ++i;
             return true;
         }
+        bool FindCharSymbols(char expected) {
+            if (expected == '=' || expected == '!' ||
+            expected == '>' || expected == '<' ||
+            expected == ';' || expected == '[' ||
+            expected == ']' || expected == '(' ||
+            expected == ')') {
+            return true;
+        }
+            return false;
+        }
+                
 };
