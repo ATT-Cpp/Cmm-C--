@@ -239,6 +239,28 @@ tokens.push_back({
           ++i;
           currentSchar=input[i];
         }
+        if(currentSchar == '>') {
+          tokens.push_back( { TokenType::GREATERTHEN } );
+          ++i;
+          currentSchar = input[i];
+        }
+        if(currentSchar == '<') {
+          tokens.push_back ( { TokenType::LESSTHEN } );
+          ++i;
+          currentSchar = input[i];
+        }
+        if(currentWord == ">=") {
+          tokens.push_back({TokenType::GREATERTHENOREQUALTO});
+          ++i;
+          currentWord += input[i];
+          currentSchar = input[i];
+        }
+        if(currentWord == "<=") {
+          tokens.push_back({TokenType::LESSTHENOREQUALTO});
+          ++i;
+          currentWord +=input[i];
+          currentSchar = input[i];
+        }
 
         if(currentSchar == ';')
         {
@@ -284,9 +306,68 @@ tokens.push_back({
           ++i;
           currentSchar = input[i];
         }
-      }
+       if (std::isdigit(currentSchar))
+{
+    std::string number;
 
+    while (i < input.size() &&
+           std::isdigit(input[i]))
+    {
+        number += input[i];
+        ++i;
     }
+
+    --i;
+
+    tokens.push_back(
+    {
+        TokenType::NUMERICAL,
+        number
+    });
+}
+
+if (currentSchar == '"')
+{
+    std::string str;
+
+    ++i;
+
+    while (i < input.size() &&
+           input[i] != '"')
+    {
+        str += input[i];
+        ++i;
+    }
+
+    tokens.push_back(
+    {
+        TokenType::STRING_LITERAL,
+        str
+    });
+}
+
+if (currentSchar == '\'')
+{
+    std::string ch;
+
+    ++i;
+
+    if (i < input.size())
+    {
+        ch += input[i];
+        ++i;
+    }
+
+    tokens.push_back(
+    {
+        TokenType::CHAR_LITERAL,
+        ch
+    });
+}
+  }
+            
+
+};
 
 
       
