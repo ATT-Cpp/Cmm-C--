@@ -17,7 +17,7 @@ class Compiler
         LBRACKET,
         RBRACKET,
 
-        Symbols, //like ; [] ()
+        SYMBOLS, //like ; [] ()
         AND,
         OR,
         NOT,
