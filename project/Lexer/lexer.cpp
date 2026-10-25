@@ -37,7 +37,7 @@ void Compiler::Lexer(std::string& input) {
 
         if(currentSchar == '\'') {
             std::string word1;
-            while(i < input.size() && currentSchar != '\0'') {
+            while(i < input.size() && currentSchar != '\0') {
                 word1+=input[i];
                 ++i;
                 tokens.push_back({Char, word1});
