@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include "Helper/helper.h
 #include<vector>
 #include<iostream>
 #include<cctype>
@@ -19,196 +20,9 @@ void Compiler::Lexer(std::string& input)
         currentWord+=input[i];
         currentSchar=input[i];
       }
-      if(currentWord == "if") {
-        tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-      if(currentWord == "fn") {
-        tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "return") {
-       tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-      if(currentWord == "import") {
-        tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-      if(currentWord == "else") {
-       tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-      if(currentWord == "for") {
-      tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "while") {
-       tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "switch") {
-       tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "case") {
-      tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "break") {
-        tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "int") {
-      tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "float") {
-       tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "bool") {
-         tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "char") {
-       tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "string") {
-       tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "void") {
-tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "var")
-      {
-         tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "auto") {
-       tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-
-      if(currentWord == "const")
-      {
-         tokens.push_back({
-    TokenType::KEYWORD,
-    currentWord
-});
-        ++i;
-        currentWord+=input[i];
-        currentSchar=input[i];
-      }
-      
       if(std::find(Keywords.begin(), Keywords.end(), currentWord) != Keywords.end())
       {
+        tokens.push_back({ TokenType::KEYWORDS });
          ++i;
         currentWord+=input[i];
         currentSchar=input[i];
@@ -226,25 +40,25 @@ tokens.push_back({
        }
       
         
-        if(currentSchar == '=')
+        if(FindCharSymbol('='))
         {
           tokens.push_back( { TokenType::ASSIGNMENTOP } );
           ++i;
           currentSchar=input[i];
         }
 
-        if(currentSchar == '!')
+        if(FindCharSymbol('!'))
         {
           tokens.push_back(  { TokenType::NOT } );
           ++i;
           currentSchar=input[i];
         }
-        if(currentSchar == '>') {
+        if(FindCharSymbol('>')) {
           tokens.push_back( { TokenType::GREATERTHEN } );
           ++i;
           currentSchar = input[i];
         }
-        if(currentSchar == '<') {
+        if(FindCharSymbol('<')) {
           tokens.push_back ( { TokenType::LESSTHEN } );
           ++i;
           currentSchar = input[i];
@@ -262,14 +76,14 @@ tokens.push_back({
           currentSchar = input[i];
         }
 
-        if(currentSchar == ';')
+        if(FindCharSymbol(';'))
         {
           tokens.push_back(  { TokenType::SEMICOLON } );
           ++i;
           currentSchar=input[i];
         }
 
-        if(currentSchar == '[')
+        if(FindCharSymbol('['))
         {
           tokens.push_back(  { TokenType::LBRACKET } );
  
@@ -277,7 +91,7 @@ tokens.push_back({
           currentSchar=input[i];
         }
 
-        if(currentSchar == ']')
+        if(FindCharSymbol(']'))
         {
           tokens.push_back(  { TokenType::RBRACKET } );
         
@@ -285,7 +99,7 @@ tokens.push_back({
           currentSchar=input[i];
         }
 
-        if(currentSchar == '(')
+        if(FindCharSymbol('('))
         {
           tokens.push_back(  { TokenType::LPARENTHESES } );
           
@@ -293,7 +107,7 @@ tokens.push_back({
           currentSchar=input[i];
         }
 
-        if(currentSchar == ')')
+        if(FindCharSymbol(')'))
         {
           tokens.push_back( { TokenType::RPARENTHESES } );
           
