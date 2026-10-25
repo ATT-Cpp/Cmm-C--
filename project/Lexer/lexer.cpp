@@ -27,99 +27,18 @@ void Compiler::Lexer(std::string& input)
         currentWord+=input[i];
         currentSchar=input[i];
       } else {
-        
+        if(tokens[i].type != Symbols) {
+          
         tokens.push_back({TokenType::IDENTIFIER, currentWord});
+        }
+      ++i;
 
       }
-        
-       if(currentWord == "==")
-       {
-         tokens.push_back(  { TokenType::EQUALTO, currentWord });
-         ++i;
-         currentWord+=input[i];
-         currentSchar=input[i];
-       }
-      
-        
-        if(FindCharSymbol('='))
-        {
-          tokens.push_back( { TokenType::ASSIGNMENTOP } );
+        if(std::find(Symbol.begin(), Symbol.end(), currentWord) != Symbol.end()) {
+          tokens.push_back({ TokenType::Symbols });
           ++i;
+          currentWord+=input[i];
           currentSchar=input[i];
-        }
-
-        if(FindCharSymbol('!'))
-        {
-          tokens.push_back(  { TokenType::NOT } );
-          ++i;
-          currentSchar=input[i];
-        }
-        if(FindCharSymbol('>')) {
-          tokens.push_back( { TokenType::GREATERTHEN } );
-          ++i;
-          currentSchar = input[i];
-        }
-        if(FindCharSymbol('<')) {
-          tokens.push_back ( { TokenType::LESSTHEN } );
-          ++i;
-          currentSchar = input[i];
-        }
-        if(currentWord == ">=") {
-          tokens.push_back({TokenType::GREATERTHENOREQUALTO});
-          ++i;
-          currentWord += input[i];
-          currentSchar = input[i];
-        }
-        if(currentWord == "<=") {
-          tokens.push_back({TokenType::LESSTHENOREQUALTO});
-          ++i;
-          currentWord +=input[i];
-          currentSchar = input[i];
-        }
-
-        if(FindCharSymbol(';'))
-        {
-          tokens.push_back(  { TokenType::SEMICOLON } );
-          ++i;
-          currentSchar=input[i];
-        }
-
-        if(FindCharSymbol('['))
-        {
-          tokens.push_back(  { TokenType::LBRACKET } );
- 
-          ++i;
-          currentSchar=input[i];
-        }
-
-        if(FindCharSymbol(']'))
-        {
-          tokens.push_back(  { TokenType::RBRACKET } );
-        
-          ++i;
-          currentSchar=input[i];
-        }
-
-        if(FindCharSymbol('('))
-        {
-          tokens.push_back(  { TokenType::LPARENTHESES } );
-          
-          ++i;
-          currentSchar=input[i];
-        }
-
-        if(FindCharSymbol(')'))
-        {
-          tokens.push_back( { TokenType::RPARENTHESES } );
-          
-          ++i;
-          currentSchar=input[i];
-        }
-
-        if(currentWord == "||") {
-          tokens.push_back({TokenType::OR});
-          ++i;
-          currentSchar = input[i];
         }
        if (std::isdigit(currentSchar))
 {
@@ -145,7 +64,7 @@ if (currentSchar == '"')
 {
     std::string str;
 
-    ++i;
+    ++i;  
 
     while (i < input.size() &&
            input[i] != '"')
