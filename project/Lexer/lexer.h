@@ -22,6 +22,10 @@ class Compiler
         NOT,
         SEMICOLON,
         OR,
+        GREATERTHEN,
+        GREATERTHENOREQUALTO,
+        LESSTHEN,
+        LESSTHENOREQUALTO,
 
         } TokenType
         struct Tokens {
