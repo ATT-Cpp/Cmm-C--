@@ -22,7 +22,7 @@ class Compiler
         OR,
         NOT,
 
-        } TokenType
+        };
         struct Tokens {
             Token TokenType;
             std::string Value;
@@ -36,4 +36,4 @@ class Compiler
 };
         
 extern std::vector <std::string> Keywords;
-extern std::vector <Token> Tokens;
+extern std::vector <Tokens> tokens;
