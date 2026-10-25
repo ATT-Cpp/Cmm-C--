@@ -1,5 +1,5 @@
 #include "lexer.h"
-#include "Helper/helper.h
+#include "Helper/helper.h"
 #include<vector>
 #include<iostream>
 #include<cctype>
@@ -22,11 +22,12 @@ void Compiler::Lexer(std::string& input)
       }
       if(std::find(Keywords.begin(), Keywords.end(), currentWord) != Keywords.end())
       {
-        tokens.push_back({ TokenType::KEYWORDS });
+        tokens.push_back({ TokenType::KEYWORDS, currentWord });
          ++i;
         currentWord+=input[i];
         currentSchar=input[i];
       } else {
+        
         tokens.push_back({TokenType::IDENTIFIER, currentWord});
 
       }
