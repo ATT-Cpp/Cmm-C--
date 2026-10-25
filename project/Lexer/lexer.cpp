@@ -15,12 +15,12 @@ void Compiler::Lexer(std::string& input) {
         if(isspace(currentSchar)) {
             continue;
         }
-        if(std::find(keywords.begin(), keywords.end(), currentWord) != keywords.end()) {
+        if(std::find(Keywords.begin(), Keywords.end(), currentWord) != Keywords.end()) {
             tokens.push_back({KEYWORD, currentWord});
             currentWord.clear();
         }
         if(std::find(Symbol.begin(), Symbol.end(), currentWord) != Symbol.end()) {
-            tokens.push_back({SYMBOLS, currentWord})
+            tokens.push_back({SYMBOLS, currentWord});
                 currentWord.clear();
         }
 
@@ -29,7 +29,7 @@ void Compiler::Lexer(std::string& input) {
             while(i < input.size() && input[i] != '"') {
                 word += input[i];
                 ++i;
-                tokens.push_back({STRING, word1})
+                tokens.push_back({STRING, word});
                 currentWord.clear();
             }
          }
@@ -40,7 +40,7 @@ void Compiler::Lexer(std::string& input) {
             while(i < input.size() && currentSchar != '\0') {
                 word1+=input[i];
                 ++i;
-                tokens.push_back({Char, word1});
+                tokens.push_back({CHAR, word1});
             currentWord.clear();
             }
         }
@@ -51,7 +51,7 @@ void Compiler::Lexer(std::string& input) {
             while(i < input.size() && isdigit(input[i])) {
                 currentWord2 += input[i];
                 ++i;
-                tokens.push_back({INT, currentWord2})
+                tokens.push_back({INT, currentWord2});
                     currentWord.clear();
             }
         }
@@ -63,7 +63,7 @@ void Compiler::Lexer(std::string& input) {
             (currentWord == "true" || currentWord == "false")) {
                 ToF += input[i];
                 ++i;
-                tokens.push_back({BOOL, CurrentWord});
+                tokens.push_back({BOOL, currentWord});
                 currentWord.clear();
             }
         }
