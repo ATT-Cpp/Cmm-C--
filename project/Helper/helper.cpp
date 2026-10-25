@@ -12,11 +12,11 @@ class HelperFunctions { //add this to Helpers/helpers.h
             return true;  
         }
                     
-        bool FindType(int& i, std::string expected) {
+        bool FindType(int& i, TokenType expected) {
             if(tokens[i].type != expected) {
                 return false; 
             }
-            ++i
+            ++i;
             return true;
         }
 };
