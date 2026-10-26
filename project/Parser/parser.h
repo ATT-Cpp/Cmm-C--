@@ -2,6 +2,9 @@
 #include<iostream>
 #include<vector>
 #include<string>
+// ----------------------------------------------
+//                     LOOPS
+//-----------------------------------------------
 class IfStatement
 { 
     private:
@@ -13,7 +16,37 @@ class IfStatement
       };
       std::vector <ifstmt> IF;
     public:
-      bool ParseIfStatement(int& i);
+      void ParseIfStatement(int& i);
+};
+
+class WhileStatement {
+    private:
+        struct whilestmt {
+            std::string Lidentifier,
+            std::string logicOp,
+            std::string Ridentifier,
+            std::string logicGates,
+        };
+        std::vector <whilestmt> WH;
+
+    public:
+        void ParseWhileStatement(int& i);
+};
+
+class ForStatement {
+    private:
+        struct forstmt {
+            std::string Lidentifier,
+            std::string logicOp,
+            std::string Ridentifier,
+            std::string logicGates,
+            std::string decreincrement,
+            std::string declaration,
+        };
+
+    public:
+        void ParseForStatement(int& i);
+        void ParseArguments(int& i);
 };
 
 class VariableDeclaration
@@ -28,6 +61,7 @@ class VariableDeclaration
         char charecter;  
     };
     std::vector <vardecl> VD;
+
     public:
       void ParseVarDecl(int& i);
 };
