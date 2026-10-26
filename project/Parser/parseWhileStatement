@@ -1,0 +1,13 @@
+#include "Helper/helper.h"
+#include "Lexer/lexer.h"
+#include "parser.h"
+#include <iostream>
+#include <string>
+#include <vector>
+
+void WhileStatement::parseWhileStatement(int& i) {
+    if(FindKeyword(i, "while")) {
+        parseCondition(i);
+        parseBlock(i);
+    }
+}
