@@ -49,7 +49,7 @@ class HelperFunctions { //add this to Helpers/helpers.h
 
         void parseBlock(int& i) { 
             parseCondition(i);
-            if(Findtype(i, LBRACKET)) {
+            if(FindType(i, LBRACKET)) {
                 while(!FindType(i, RBRACKET)) { 
                     if(FindKeyword(i, "if")) {
                         parseCondition(i);
