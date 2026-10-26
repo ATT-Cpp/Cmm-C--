@@ -24,7 +24,7 @@
                 tokens.push_back({SYMBOLS, currentWord});
                     currentWord.clear();
             }
-            iif(currentSchar == '"') {
+            if(currentSchar == '"') {
     std::string word;
 
     ++i;
