@@ -31,11 +31,3 @@ class VariableDeclaration
     public:
       void ParseVarDecl(int& i);
 };
-
-class WhileStatement {
-    private:
-    
-    public:
-    void ParseWhileStatement(int& i);
-};
-   
