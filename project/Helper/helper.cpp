@@ -4,8 +4,9 @@
 #include "helper.h"
 class HelperFunctions { //add this to Helpers/helpers.h
     public:
+        using TokenType = type;
         bool FindKeyword(int& i, std::string expected) { //add this 
-            if(tokens[i].keywords != expected) {
+            if(tokens[i].Value != expected) {
                 ++i;
                 return false;
             }
@@ -14,7 +15,7 @@ class HelperFunctions { //add this to Helpers/helpers.h
         }
                     
         bool FindType(int& i, TokenType expected) {
-            if(tokens[i].type != expected) {
+            if(tokens[i]. != expected) {
                 ++i;
                 return false; 
             }
