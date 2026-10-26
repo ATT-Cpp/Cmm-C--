@@ -6,7 +6,6 @@
 #include<string>
  void IfStatement::parseIfStatement(int& i) { 
     if(FindKeyword(i, "if")) {
-        ++i;
         parseCondition(i);
         parseBlock(i);
     } 
