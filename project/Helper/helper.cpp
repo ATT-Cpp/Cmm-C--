@@ -33,7 +33,7 @@ class HelperFunctions { //add this to Helpers/helpers.h
             return false;
         }
 
-          void parseCondition(int& i) {
+          void parseCondition(int& i, std::vector <) {
             if(FindType(i, LPARENTHESES)) {
                 while(!FindType(i, RPARENTHESES)) {
                     if(FindType(i, IDENTIFIER)) { }
