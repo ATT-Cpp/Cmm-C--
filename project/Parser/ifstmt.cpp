@@ -10,8 +10,8 @@ class IfStatement {
         void parseIfStatement(int& i) { 
             if(FindKeyword(i, "if")) {
                 ++i;
-                parseCondition();
-                parseBlock();
+                parseCondition(i);
+                parseBlock(i);
             } 
         }
 }
