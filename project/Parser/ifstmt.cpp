@@ -5,38 +5,40 @@
 #include<vector>
 #include<string>
 
-class IfStatement {
-    public:
-        void parseIfStatement(int& i) {
-            if(FindKeyword(i, "if") && FindType(i, KEYWORD)) {
-                ++i;
-                if(FindType(i,LPARENTHESES)) {
-                    ++i;
-                    while(FindType(i,LPARENTHESES)) {
-                        ++i;
-                        if(FindType(i, IDENTIFIER)) {
-                            ++i;
-                            if(FindType(i,SYMBOLS)) {
-                                ++i;
-                                if(FindType(i,IDENTIFIER)) {
-                                    ++i;
-                                    while(FindType(i,AND) || FindType(i,OR)) {
-                                        ++i;
-                                        if(FindType(i, IDENTIFIER)) {
-                                            ++i;
-                                            if(FindType(i,SYMBOLS)) {
-                                                ++i;
-                                                if(FindType(i, IDENTIFIER)) {
-                                                    ++i;
-                                                }
-                                            }
-                                         }
-                                     }
-                               }
-                           }
-                       }
-                   }
+        void parseCondition(int& i) {
+            if(FindType(i, LPARENTHESES)) {
+                while(!FindType(i, RPARENTHESES)) {
+                    if(FindType(i, IDENTIFIER)) { }
+                    if(FindType(i, SYMBOL)) { }
+                    if(FindType(i, IDENTIFIER)) { }
+                    while(FindType(i, AND) || FindType(i,OR))  { 
+                         ++i;
+                         if(FindType(i, IDENTIFIER)) { }
+                         if(FindType(i, SYMBOL)) { }
+                         if(FindType(i, IDENTIFIER)) { }
+                    }
                 }
             }
         }
-};
+
+        void parseBlock(int& i) { 
+            parseCondition(i);
+            if(Findtype(i, LBRACKET)) {
+                while(!FindType(i, RBRACKET)) { 
+                    if(FindKeyword(i, "if")) {
+                        parseCondition(i);
+                    }
+                    else if(FindKeyword(i, "while")) {
+                        parseCondition();
+                    } 
+                    else if(FindKeyword(i, "for")) {
+                        parseCondition();
+                    }
+                    // placeholder for more loops or others that have [ ];
+                    else {
+                        break;
+                    }
+                        
+                }
+            }
+        }
