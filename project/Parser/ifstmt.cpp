@@ -4,14 +4,10 @@
 #include<iostream>
 #include<vector>
 #include<string>
-
-class IfStatement { 
-    public:
-        void parseIfStatement(int& i) { 
-            if(FindKeyword(i, "if")) {
-                ++i;
-                parseCondition(i);
-                parseBlock(i);
-            } 
-        }
-}
+ void IfStatement::parseIfStatement(int& i) { 
+    if(FindKeyword(i, "if")) {
+        ++i;
+        parseCondition(i);
+        parseBlock(i);
+    } 
+ }
