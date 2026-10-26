@@ -9,6 +9,7 @@ class HelperFunctions { //add this to Helpers/helpers.h
                 ++i;
                 return false;
             }
+            ++i;
             return true;  
         }
                     
@@ -17,6 +18,7 @@ class HelperFunctions { //add this to Helpers/helpers.h
                 ++i;
                 return false; 
             }
+            ++i;
             return true;
         }
         bool FindCharSymbols(char expected) {
@@ -37,7 +39,6 @@ class HelperFunctions { //add this to Helpers/helpers.h
                     if(FindType(i, SYMBOL)) { }
                     if(FindType(i, IDENTIFIER)) { }
                     while(FindType(i, AND) || FindType(i,OR))  { 
-                         ++i;
                          if(FindType(i, IDENTIFIER)) { }
                          if(FindType(i, SYMBOL)) { }
                          if(FindType(i, IDENTIFIER)) { }
