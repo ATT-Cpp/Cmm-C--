@@ -4,3 +4,14 @@
 #include<iostream>
 #include<vector>
 #include<string>
+
+class IfStatement { 
+    public:
+        void parseIfStatement(int& i) { 
+            if(FindKeyword(i, "if")) {
+                ++i;
+                parseCondition();
+                parseBlock();
+            } 
+        }
+}
