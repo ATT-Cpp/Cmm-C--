@@ -8,18 +8,18 @@
 class IfStatement
 { 
     private:
-      struct ifstmt {
-          std::string Lidentifier,
-          std::string logicOp, //
-          std::string Ridentifier,
-          std::string logicGates,  
+      enum ifstmt {
+          LIDENTIFIER,
+          LOGICOP //
+          RIDENTIFIER,
+          LOGICGATES, 
       };
-      std::vector <ifstmt> IF;
+      struct ifstm {
+          ifstmt if;
+          std::string value;
+      }
+      std::vector <ifstm> IF;
     public:
-        bool FindKeyword(int& i, std::string expected);
-        bool FindType(int& i, TokenType expected);
-        void parseBlock(int& i);
-        void parseCondition(int& i);
       void ParseIfStatement(int& i);
 };
 
@@ -34,10 +34,6 @@ class WhileStatement {
         std::vector <whilestmt> WH;
 
     public:
-        bool FindKeyword(int& i, std::string expected);
-        bool FindType(int& i, TokenType expected);
-        void parseBlock(int& i);
-        void parseCondition(int& i);
         void ParseWhileStatement(int& i);
 };
 
@@ -53,10 +49,6 @@ class ForStatement {
         };
 
     public:
-        bool FindKeyword(int& i, std::string expected);
-        bool FindType(int& i, TokenType expected);
-        void parseBlock(int& i);
-        void parseCondition(int& i);
         void ParseForStatement(int& i);
         void ParseArguments(int& i);
 };
@@ -75,9 +67,5 @@ class VariableDeclaration
     std::vector <vardecl> VD;
 
     public:
-        bool FindKeyword(int& i, std::string expected);
-        bool FindType(int& i, TokenType expected);
-        void parseBlock(int& i);
-        void parseCondition(int& i);
       void ParseVarDecl(int& i);
 };
