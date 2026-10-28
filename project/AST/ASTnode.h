@@ -5,6 +5,11 @@ class ASTnode {
     private:
         enum Node_Properties {
             IMPORT,
+            IDENTIFIER,
+            OPERATOR,
+            IDENTIFIER,
+            AND,
+            OR,
             STRUCT_DECL,
             ENUM_DECL
             FUNCTION_DECL,
