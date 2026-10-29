@@ -7,8 +7,7 @@ class ASTnode {
             IMPORT,
             IDENTIFIER,
             OPERATOR,
-            AND,
-            OR,
+            ANDOR;
             STRUCT_DECL,
             ENUM_DECL
             FUNCTION_DECL,
