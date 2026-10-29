@@ -1,17 +1,19 @@
-#include<vector>
+#pragma once
+
+#include <vector>
 #include <string>
 
 class ASTnode {
-    private:
+    public:
         enum Node_Properties {
             IMPORT,
             IDENTIFIER,
             OPERATOR,
-            ANDOR;
+            ANDOR,
             STRUCT_DECL,
-            ENUM_DECL
+            ENUM_DECL,
             FUNCTION_DECL,
-            VARIABLE_DECL
+            VARIABLE_DECL,
             IF_STATEMENT,
             FOR_STATEMENT,
             WHILE_STATEMENT,
@@ -19,11 +21,10 @@ class ASTnode {
             BREAK_STATEMENT,
             CONTINUE_STATEMENT,
             MATCH_STATEMENT,
-  
-        }
+        };
         struct Node {
             Node_Properties Type;
-            std::vector Value;
-            std::vector <Node> Children;
-        }
-}
+            std::string Value;
+            std::vector<Node> Children;
+        };
+};

@@ -1,11 +1,12 @@
     #include "lexer.h"
     #include "Helper/helper.h"
+    #include <algorithm>
     #include<vector>
     #include<iostream>
     #include<cctype>
     #include <string>
     
-    void Compiler::Lexer(std::string& input) {
+    void Compiler::Lexer(std::string input) {
         std::string currentWord;
         char currentSchar;
         int i = 0;

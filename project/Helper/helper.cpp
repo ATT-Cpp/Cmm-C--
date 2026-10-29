@@ -1,12 +1,11 @@
 #include"helper.h"
-#include"ASTnode.h"
-#include"lexer.h"
+#include "Lexer/lexer.h"
 #include<iostream>
 #include<string>
 #include<vector>
 
-bool Helper::FindType(int& i, TokenType type) {
-    if(tokens[i].type != type) {
+bool Helper::FindType(int& i, Compiler::Token type) {
+    if(Compiler::tokens[i].TokenType != type) {
         return false;
     }
     ++i;
@@ -14,63 +13,66 @@ bool Helper::FindType(int& i, TokenType type) {
 }
 
 bool Helper::FindKeywords(int& i, std::string expected) {
-    if(tokens[i].Value != expected) {
+    if(Compiler::tokens[i].Value != expected) {
         return false;
     }
     ++i;
     return true;
 } 
-Node Helper::parseCondition(int& i) {
-    Node ConditionNode;
-    if(FindType(i, LPARENTHESES)) {
-        while(!FindType(i, RPARENTHESES)) {
-            if(FindType(i, IDENTIFIER)) {
-                Node Left;
-                Left.Type = IDENTIFIER;
-                Left.Value = tokens[i];
+ASTnode::Node Helper::parseCondition(int& i) {
+    ASTnode::Node ConditionNode{};
+    ASTnode::Node Left{};
+    ASTnode::Node Operator{};
+    ASTnode::Node Right{};
+    ASTnode::Node LogicGates{};
+    if(Compiler::Symbol[i] == "(") {
+        while(Compiler::tokens[i].Value != ")") {
+            if(FindType(i, Compiler::IDENTIFIER)) {
+                Left.Type = ASTnode::IDENTIFIER;
+                Left.Value = Compiler::tokens[i].Value;
             }
-            if(FindKeywords(i, ">") || FindKeywords(i, "<") || FindKEywords(">=") || FindKeywords(i, "<=") || FindKeywords(i, "==")|| FindKeywords(i, "!=")) {
-            Node Operator;
-                Operator.Type = OPERATOR;
-                Operator.Value = tokens[i].Value;
+            if(FindKeywords(i, ">") || FindKeywords(i, "<") || FindKeywords(i, ">=") || FindKeywords(i, "<=") || FindKeywords(i, "==")|| FindKeywords(i, "!=")) {
+                Operator.Type = ASTnode::OPERATOR;
+                Operator.Value = Compiler::tokens[i].Value;
 
             }
-            if(FindType(i, IDENTIFIER)) {
-                Node Right;
-                Right.Type = IDENTIFIER;
-                Right.Value = tokens[i].Value;
+            if(FindType(i, Compiler::IDENTIFIER)) {
+                Right.Type = ASTnode::IDENTIFIER;
+                Right.Value = Compiler::tokens[i].Value;
             }
-            Node LogicGates;
-            if(FindType(i, AND) || FindType(i,OR)) {
-                LogicGates.Type = ANDOR;
-                LogicGates.Value = tokens[i].Value;
+            ASTnode::Node LogicGates{};
+            if(Compiler::Symbol[i] == "&&" || Compiler::Symbol[i] == "||") {
+                LogicGates.Type = ASTnode::ANDOR;
+                LogicGates.Value = Compiler::tokens[i].Value;
             }
-            while(FindType(i, AND) || FindType(i, OR)) {
-                if(FindType(i, IDENTIFIER)) {
-                    Node Left;
-                    Left.Type = IDENTIFIER;
-                    Left.Value = tokens[i].Value;
+            while(Compiler::Symbol[i] == "&&" || Compiler::Symbol[i] == "||") { {
+                if(FindType(i, Compiler::IDENTIFIER)) {
+                    Left.Type = ASTnode::IDENTIFIER;
+                    Left.Value = Compiler::tokens[i].Value;
                 }
                 if(FindKeywords(i, ">") || FindKeywords(i, "<") || FindKeywords(i, ">=") || FindKeywords(i, "<=") || FindKeywords(i, "==")|| FindKeywords(i, "!=")) {
-                    Node Operator;
-                    Operator.Type = OPERATOR;
-                    Operator.Value = tokens[i].Value;
+                    Operator.Type = ASTnode::OPERATOR;
+                    Operator.Value = Compiler::tokens[i].Value;
 
                 }
-                if(FindType(i, IDENTIFIER)) {
-                    Node Right;
-                    Right.Type = IDENTIFIER;
-                    Right.Value = tokens[i].Value;
+                if(FindType(i, Compiler::IDENTIFIER)) {
+                    Right.Type = ASTnode::IDENTIFIER;
+                    Right.Value = Compiler::tokens[i].Value;
                 }
             }
             
             
         }
     }
+    ConditionNode.Children.push_back(Left);
+    ConditionNode.Children.push_back(Operator);
+    ConditionNode.Children.push_back(Right);
+    ConditionNode.Children.push_back(LogicGates);
+    return ConditionNode;
+}
 }
 
 
 
 
     
-
