@@ -7,18 +7,6 @@
 //-----------------------------------------------
 class IfStatement
 { 
-    private:
-      enum ifstmt {
-          LIDENTIFIER,
-          LOGICOP, //
-          RIDENTIFIER,
-          LOGICGATES, 
-      };
-      struct ifstm {
-          ifstmt type;
-          std::string value;
-      };
-      std::vector <ifstm> IF;
     public:
       void ParseIfStatement(int& i);
 };
