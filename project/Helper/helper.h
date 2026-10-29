@@ -8,6 +8,6 @@ class Helper {
         bool FindKeywords(int& i, std::string expected);
         bool FindType(int& i, Compiler::Token expected);
         ASTnode::Node parseBlock(int& i);
-        ASTnode::Node parseCondition(int& i);
+        ASTnode::Node parseCondition(int& i, int& b);
         ASTnode::Node ParseForStatement(int& i);
 };

@@ -19,7 +19,7 @@ bool Helper::FindKeywords(int& i, std::string expected) {
     ++i;
     return true;
 } 
-ASTnode::Node Helper::parseCondition(int& i) {
+ASTnode::Node Helper::parseCondition(int& i, int& b) {
     ASTnode::Node ConditionNode{};
     ASTnode::Node Left{};
     ASTnode::Node Operator{};
@@ -41,11 +41,11 @@ ASTnode::Node Helper::parseCondition(int& i) {
                 Right.Value = Compiler::tokens[i].Value;
             }
             ASTnode::Node LogicGates{};
-            if(Compiler::Symbol[i] == "&&" || Compiler::Symbol[i] == "||") {
+            if(Compiler::Symbol[b] == "&&" || Compiler::Symbol[b] == "||") {
                 LogicGates.Type = ASTnode::ANDOR;
-                LogicGates.Value = Compiler::tokens[i].Value;
+                LogicGates.Value = Compiler::tokens[b].Value;
             }
-            while(Compiler::Symbol[i] == "&&" || Compiler::Symbol[i] == "||") { {
+            while(Compiler::Symbol[b] == "&&" || Compiler::Symbol[b] == "||") { {
                 if(FindType(i, Compiler::IDENTIFIER)) {
                     Left.Type = ASTnode::IDENTIFIER;
                     Left.Value = Compiler::tokens[i].Value;
