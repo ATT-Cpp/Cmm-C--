@@ -5,25 +5,25 @@
 // ----------------------------------------------
 //                     LOOPS
 //-----------------------------------------------
-class IfStatement
+class IfStatement //(Todo: implement this class)
 { 
     public:
       void ParseIfStatement(int& i);
 };
 
-class WhileStatement {
+class WhileStatement {//(Todo: implement this class)
     public:
         void ParseWhileStatement(int& i);
 };
 
-class ForStatement {
+class ForStatement {//(Todo: implement this class)
 
     public:
         void ParseForStatement(int& i);
         void ParseArguments(int& i);
 };
 
-class VariableDeclaration
+class VariableDeclaration//(Todo: implement this class)
 {
 
     public:
