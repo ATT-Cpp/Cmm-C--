@@ -6,7 +6,7 @@
 #include<locales>
 void Compiler::Lexer(std::string input)
 {
-  std::string currentWord;
+  std::string currentWord;//de
   char currentSchar;
   for(int i = 0; i < input.size(); ++i)
   {
