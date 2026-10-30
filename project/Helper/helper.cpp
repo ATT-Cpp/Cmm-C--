@@ -72,6 +72,23 @@ ASTnode::Node Helper::parseCondition(int& i, int& b) {
 }
 }
 
+ASTnode::Node parseBlock(int& i, int& b)  {
+    if(Compiler::tokens[i].Value == "[") {
+        while(Compiler::tokens[i].Value != "]") {
+            if(Compiler::tokens[i].Value  == "if") {
+                Helper helper { };
+                helper.parseCondition(i, b);
+            }
+            if(Compiler::tokens[i].Value == "while") {
+                Helper helper {};
+                helper.parseCondition(i, b);
+            }
+            //Place holder for future statementsz
+        }
+    }
+
+}
+
 
 
 

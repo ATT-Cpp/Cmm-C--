@@ -12,6 +12,7 @@
         int i = 0;
         
         for(int i = 0; i < input.size(); ++i) {
+            
             currentSchar = input[i];
             if(isspace(currentSchar)) {
                 continue;
@@ -24,6 +25,9 @@
             if(std::find(Symbol.begin(), Symbol.end(), currentWord) != Symbol.end()) {
                 tokens.push_back({SYMBOLS, currentWord});
                     currentWord.clear();
+            }
+            if(tokens[i].Value != Keywords[i] && tokens[i].Value != Symbol[i]) {
+                tokens.push_back({IDENTIFIER, currentWord});
             }
             if(currentSchar == '"') {
     std::string word;

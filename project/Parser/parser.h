@@ -5,10 +5,12 @@
 // ----------------------------------------------
 //                     LOOPS
 //-----------------------------------------------
-class IfStatement //(Todo: implement this class)
+class ControlFlowStatement //(Todo: implement this class)
 { 
     public:
-      void ParseIfStatement(int& i);
+      inline void ParseIfStatement(int& i, int& b);
+      inline void ParseElseStatement(int& i, int& b);
+      inline void ParseElseIfStatement(int& i, int& b);
 };
 
 class WhileStatement {//(Todo: implement this class)
