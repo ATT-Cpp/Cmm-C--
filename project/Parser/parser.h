@@ -13,16 +13,20 @@ class ControlFlowStatement //(Todo: implement this class)
       inline void ParseElseIfStatement(int& i, int& b);
 };
 
-class WhileStatement {//(Todo: implement this class)
+class IterationStatement {//(Todo: implement this class)
     public:
-        void ParseWhileStatement(int& i);
+        void ParseWhileStatement(int& i, int& b);
+        void ParseForStatement(int& i, int& b);
+        void ParseForCondition(int& i, int& b);
+
 };
 
-class ForStatement {//(Todo: implement this class)
+class JumpBasedStatements {//(Todo: implement this class)
 
     public:
-        void ParseForStatement(int& i);
-        void ParseArguments(int& i);
+        void ParseBreakStatement(int& i, int& b);
+        void ParseReturnStatement(int& i, int& b);
+        void ParseContinueStatement(int& i, int& b);
 };
 
 class VariableDeclaration//(Todo: implement this class)
@@ -30,4 +34,5 @@ class VariableDeclaration//(Todo: implement this class)
 
     public:
       void ParseVarDecl(int& i);
+      void ParseDataTypes(int& i);
 };

@@ -6,6 +6,11 @@
 class ASTnode {
     public:
         enum Node_Properties {
+            DATA_TYPES,
+            STRING,
+            INT,
+            CHAR,
+            BOOL,
             IMPORT,
             IDENTIFIER,
             OPERATOR,

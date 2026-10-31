@@ -1,26 +1,22 @@
-#include "ASTnode.h"
-#include "parser.h"
-#include "helper.h"
-#include "lexer.h"
-// otherfiles classes add here
+#include"../../Include/includes.h"
+
 Helper help;
-//end
 void ControlFlowStatement::ParseIfStatement(int& i, int& b) {
     if(help.FindKeywords(i, "if")) {
-        help.parseCondition(i, b);
-        help.parseBlock(i, b);
+        help.parseCondition(i);
+        help.parseBlock(i);
     }
 }
 
 void ControlFlowStatement::ParseElseStatement(int& i, int& b) {
     if(help.FindKeywords(i, "else")) {
-        help.parseBlock(i, b);
+        help.parseBlock(i);
     }
 }
 
 void ControlFlowStatement::ParseElseIfStatement(int& i, int& b) {
     if(help.FindKeywords(i, "else if")) {
-        help.parseCondition(i, b);
-        help.parseBlock(i, b);
+        help.parseCondition(i);
+        help.parseBlock(i);
     }
 }
