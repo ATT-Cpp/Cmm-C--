@@ -1,0 +1,4 @@
+Idea List:
+1. Add a folder in everysingle folder called DebugLex DebugAST etc for debugging. If u run those files. it should come with expected results
+2.
+3.
