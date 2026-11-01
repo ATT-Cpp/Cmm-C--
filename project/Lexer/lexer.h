@@ -29,5 +29,9 @@ class Compiler
         inline static std::vector<Tokens> tokens;
 
     public:
-        void Lexer(std::string input);
+        void Lexer(const std::string& input, size_t& i);
+        void keywords(const std::string& input, size_t& i);
+        void Symbols(const std::string& input, size_t& i);
+        void ParseString(const std::string& input, size_t& i);
+        void ParseInt(const std::string& input, size_t& i);
 };

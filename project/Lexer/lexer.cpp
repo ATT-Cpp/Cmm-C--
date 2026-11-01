@@ -5,12 +5,11 @@
 #include<iostream>
 #include<cctype>
 #include <string>
-void Compiler::Lexer(std::string input) {
+void Compiler::Lexer(const std::string& input, size_t& i) {
     std::string currentWord;
     char currentSchar;
     int i = 0;
 
-    for(int i = 0; i < input.size(); ++i) {
 
         currentSchar = input[i];
         const bool isSymbol = std::find(Symbol.begin(), Symbol.end(), std::string(1, currentSchar)) != Symbol.end();
@@ -86,10 +85,7 @@ void Compiler::Lexer(std::string input) {
             currentWord.clear();
             currentWord += input[i];
         }
-
-    }
-
-    if(std::find(Keywords.begin(), Keywords.end(), currentWord) != Keywords.end()) {
+               if(std::find(Keywords.begin(), Keywords.end(), currentWord) != Keywords.end()) {
         tokens.push_back({KEYWORD, currentWord});
     }
     else if(std::find(Symbol.begin(), Symbol.end(), currentWord) != Symbol.end()) {
@@ -98,4 +94,7 @@ void Compiler::Lexer(std::string input) {
     else if(!currentWord.empty()) {
         tokens.push_back({IDENTIFIER, currentWord});
     }
-}
+
+    }
+
+
