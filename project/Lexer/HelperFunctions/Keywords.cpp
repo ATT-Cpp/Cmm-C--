@@ -18,6 +18,6 @@ void Compiler::keywords(const std::string& input, size_t& i) {
             Compiler::tokens.push_back({KEYWORD, currentWord});
         } else {
             Compiler::tokens.push_back({Compiler::IDENTIFIER, currentWord});
-        }
+        } 
     }
 }

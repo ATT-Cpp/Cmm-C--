@@ -1,0 +1,195 @@
+==================================================
+C-- FIXED DESIGN RULES
+==================================================
+
+Status:
+ACTIVE
+
+Purpose:
+Prevent feature creep.
+Preserve language identity.
+Protect the original philosophy.
+
+==================================================
+RULE 1
+==================================================
+
+The philosophy of C-- is:
+
+Be Simple.
+Write Simple.
+
+This rule may never change.
+
+==================================================
+RULE 2
+==================================================
+
+Every new feature starts as REJECTED.
+
+The burden of proof belongs to the feature.
+
+Not the language.
+
+==================================================
+RULE 3
+==================================================
+
+A feature may only be added if:
+
+1. It solves a real problem.
+2. Simpler solutions were considered.
+3. It preserves language simplicity.
+4. It improves usefulness more than complexity.
+
+Otherwise:
+
+Reject it.
+
+==================================================
+RULE 4
+==================================================
+
+"C++ has it."
+
+is NOT a valid reason.
+
+"Rust has it."
+
+is NOT a valid reason.
+
+"Other languages have it."
+
+is NOT a valid reason.
+
+==================================================
+RULE 5
+==================================================
+
+C-- is NOT trying to compete with C++.
+
+C-- is trying to remain simple.
+
+==================================================
+RULE 6
+==================================================
+
+Classes are permanently rejected.
+
+This rule may only change if:
+
+1. A major limitation appears.
+2. No reasonable alternative exists.
+3. Simplicity is preserved.
+
+Curiosity is not sufficient reason.
+
+==================================================
+RULE 7
+==================================================
+
+Inheritance is rejected.
+
+==================================================
+RULE 8
+==================================================
+
+Templates are rejected.
+
+==================================================
+RULE 9
+==================================================
+
+Operator overloading is rejected.
+
+==================================================
+RULE 10
+==================================================
+
+Complexity must justify itself.
+
+If a feature introduces more complexity than value:
+
+Reject feature.
+
+==================================================
+RULE 11
+==================================================
+
+Organization is more important than cleverness.
+
+Readable code wins.
+
+Maintainable code wins.
+
+==================================================
+RULE 12
+==================================================
+
+The official development process is:
+
+Make it work.
+
+↓
+
+See repetition?
+
+Create functions.
+
+↓
+
+See maintenance issues?
+
+Create files.
+
+↓
+
+See subsystem boundaries?
+
+Create folders.
+
+↓
+
+Continue.
+
+Never reverse this order.
+
+==================================================
+RULE 13
+==================================================
+
+Premature optimization is forbidden.
+
+Only optimize when:
+
+A measurable problem exists.
+
+==================================================
+RULE 14
+==================================================
+
+When unsure:
+
+Choose the simpler design.
+
+Always.
+
+==================================================
+RULE 15
+==================================================
+
+Changes to these rules require:
+
+A documented problem.
+
+A documented reason.
+
+No simpler alternative.
+
+If any of those are missing:
+
+The rule remains unchanged.
+
+==================================================
+END OF FIXED RULES
+==================================================

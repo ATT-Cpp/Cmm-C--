@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AST/ASTnode.h"
-#include "../Lexer/lexer.h"
+#include "../Lexer/Core/lexer.h"
 
 class Helper {
     public:

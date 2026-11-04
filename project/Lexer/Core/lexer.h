@@ -34,4 +34,6 @@ class Compiler
         void Symbols(const std::string& input, size_t& i);
         void ParseString(const std::string& input, size_t& i);
         void ParseInt(const std::string& input, size_t& i);
+        void ParseChar(const std::string& input, size_t& i);
+        void ParseBool(const std::string& input, size_t& i);
 };
