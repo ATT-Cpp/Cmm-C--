@@ -3,11 +3,12 @@
 #include "../AST/ASTnode.h"
 #include "../Lexer/Core/lexer.h"
 
-class Helper {
-    public:
-        bool FindKeywords(int& i, std::string expected);
-        bool FindType(int& i, Compiler::Token expected);
-        bool find(int& i);
-        ASTnode::Node parseBlock(int& i); 
-        ASTnode::Node parseCondition(int& i);
+class Helper
+{
+  public:
+    bool FindKeywords(int &i, std::string expected);
+    bool FindType(int &i, Compiler::Token expected);
+    bool find(int &i);
+    void parseBlock(int &i);
+    ASTnode::Node parseCondition(int &i);
 };

@@ -1,75 +1,84 @@
-#include"helper.h"
+#include "helper.h"
 #include "../Lexer/Core/lexer.h"
-#include<iostream>
-#include<string>
-#include<vector>
-bool Helper::FindType(int& i, Compiler::Token type) {
-    if(Compiler::tokens[i].TokenType != type) {
+#include <iostream>
+#include <string>
+#include <vector>
+Helper help {};
+bool Helper::FindType(int &i, Compiler::Token type)
+{
+    if (Compiler::tokens[i].TokenType != type)
+    {
         return false;
     }
-            ++i;
+    ++i;
     return true;
-
 }
 
-bool Helper::FindKeywords(int& i, std::string expected) {
-    if(Compiler::tokens[i].Value != expected) {
+bool Helper::FindKeywords(int &i, std::string expected)
+{
+    if (Compiler::tokens[i].Value != expected)
+    {
         return false;
     }
-        ++i;
+    ++i;
     return true;
-
-} 
-ASTnode::Node Helper::parseCondition(int& i) {
-    ASTnode::Node ConditionNode{};
-    ASTnode::Node Left{};
-    ASTnode::Node Operator{};
-    ASTnode::Node Right{};
-    ASTnode::Node LogicGates{};
-    if(Compiler::tokens[i].Value == "(") {
-        while(Compiler::tokens[i].Value != ")") {
+}
+ASTnode::Node Helper::parseCondition(int &i)
+{
+    ASTnode::Node ConditionNode = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+    ASTnode::Node Left = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+    ASTnode::Node Operator = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+    ASTnode::Node Right = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+    ASTnode::Node LogicGates = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+    if (Compiler::tokens[i].Value == "(")
+    {
+        while (Compiler::tokens[i].Value != ")")
+        {
             ++i;
             const std::string tokenValue = Compiler::tokens[i].Value;
-            if(FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) || FindType(i, Compiler::IDENTIFIER)) { // check identifier
-                Left.Type = ASTnode::DATA_TYPES;
-                Left.Value = tokenValue;
+            if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
+                FindType(i, Compiler::IDENTIFIER))
+            { 
+                Left = ASTnode::MakeNode(ASTnode::DATA_TYPES, tokenValue);
             }
             const std::string operatorValue = Compiler::tokens[i].Value;
-            if(FindKeywords(i, ">") || FindKeywords(i, "<") || FindKeywords(i, ">=") || FindKeywords(i, "<=") || FindKeywords(i, "==")|| FindKeywords(i, "!=")) {
-                Operator.Type = ASTnode::OPERATOR;
-                Operator.Value = operatorValue;
-
+            if (FindKeywords(i, ">") || FindKeywords(i, "<") || FindKeywords(i, ">=") || FindKeywords(i, "<=") ||
+                FindKeywords(i, "==") || FindKeywords(i, "!="))
+            {
+                Operator = ASTnode::MakeNode(ASTnode::OPERATOR, operatorValue);
             }
             const std::string rightValue = Compiler::tokens[i].Value;
-            if(FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) || FindType(i, Compiler::IDENTIFIER)) { //check identifier
-                Right.Type = ASTnode::DATA_TYPES;
-                Right.Value = rightValue;
+            if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
+                FindType(i, Compiler::IDENTIFIER))
+            {
+                Right = ASTnode::MakeNode(ASTnode::DATA_TYPES, rightValue);
             }
-            if(Compiler::tokens[i].Value == "&&" || Compiler::tokens[i].Value == "||") {
-                LogicGates.Type = ASTnode::ANDOR;
-                LogicGates.Value = Compiler::tokens[i].Value;
+            if (Compiler::tokens[i].Value == "&&" || Compiler::tokens[i].Value == "||")
+            {
+                LogicGates = ASTnode::MakeNode(ASTnode::ANDOR, Compiler::tokens[i].Value);
             }
-            while(Compiler::tokens[i].Value == "&&" || Compiler::tokens[i].Value == "||") {
+            while (Compiler::tokens[i].Value == "&&" || Compiler::tokens[i].Value == "||")
+            {
                 ++i;
                 const std::string tokenValue = Compiler::tokens[i].Value;
-                if(FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) || FindType(i, Compiler::IDENTIFIER)) { // check identifier
-                    Left.Type = ASTnode::DATA_TYPES;
-                    Left.Value = tokenValue;
+                if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
+                    FindType(i, Compiler::IDENTIFIER))
+                {
+                    Left = ASTnode::MakeNode(ASTnode::DATA_TYPES, tokenValue);
                 }
                 const std::string operatorValue = Compiler::tokens[i].Value;
-                if(FindKeywords(i, ">") || FindKeywords(i, "<") || FindKeywords(i, ">=") || FindKeywords(i, "<=") || FindKeywords(i, "==")|| FindKeywords(i, "!=")) {
-                    Operator.Type = ASTnode::OPERATOR;
-                    Operator.Value = operatorValue;
-
+                if (FindKeywords(i, ">") || FindKeywords(i, "<") || FindKeywords(i, ">=") || FindKeywords(i, "<=") ||
+                    FindKeywords(i, "==") || FindKeywords(i, "!="))
+                {
+                    Operator = ASTnode::MakeNode(ASTnode::OPERATOR, operatorValue);
                 }
                 const std::string rightValue = Compiler::tokens[i].Value;
-                if(FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) || FindType(i, Compiler::IDENTIFIER)) { //check identifier
-                    Right.Type = ASTnode::DATA_TYPES;
-                    Right.Value = rightValue;
+                if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
+                    FindType(i, Compiler::IDENTIFIER))
+                {
+                    Right = ASTnode::MakeNode(ASTnode::DATA_TYPES, rightValue);
                 }
             }
-            
-            
         }
     }
     ConditionNode.Children.push_back(Left);
@@ -79,29 +88,24 @@ ASTnode::Node Helper::parseCondition(int& i) {
     return ConditionNode;
 }
 
-ASTnode::Node Helper::parseBlock(int& i)  { //finish
+void Helper::parseBlock(int &i)
+{
 
-    if(Compiler::tokens[i].Value == "[") {
-        
-        while(Compiler::tokens[i].Value != "]") {
-            
+    if (Compiler::tokens[i].Value == "[")
+    {
+
+        while (Compiler::tokens[i].Value != "]")
+        {
+
             ++i;
-            if(Compiler::tokens[i].Value  == "if") {
-                Helper helper { };
-                helper.parseCondition(i);
+            if (Compiler::tokens[i].Value == "if")
+            {
+                help.parseCondition(i);
             }
-            if(Compiler::tokens[i].Value == "while") {
-                Helper helper {};
-                helper.parseCondition(i);
+            if (Compiler::tokens[i].Value == "while") {
+            
+                help.parseCondition(i);
             }
-            //Place holder for future statements
         }
     }
-    
-
 }
-
-
-
-
-    
