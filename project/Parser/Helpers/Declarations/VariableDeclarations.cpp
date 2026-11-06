@@ -1,8 +1,5 @@
 #include "../../../Include/includes.h"
 Helper help;
-ASTnode::Node VariableDeclarationNode = ASTnode::MakeNode(ASTnode::VARIABLE_DECL, "");
-ASTnode::Node VariableValue = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
-ASTnode::Node VariableName = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
 void VariableDeclaration::ParseVarDecl(int &i)
 {
 

@@ -25,16 +25,16 @@ bool Helper::FindKeywords(int &i, std::string expected)
 }
 ASTnode::Node Helper::parseCondition(int &i)
 {
-    ASTnode::Node ConditionNode = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
-    ASTnode::Node Left = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
-    ASTnode::Node Operator = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
-    ASTnode::Node Right = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
-    ASTnode::Node LogicGates = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
-    if (Compiler::tokens[i].Value == "(")
+    bool hasParentheses = Compiler::tokens[i].Value == "(";
+    if (hasParentheses || Compiler::tokens[i].Value != ";")
     {
-        while (Compiler::tokens[i].Value != ")")
+        while (static_cast<size_t>(i) < Compiler::tokens.size() &&
+               Compiler::tokens[i].Value != (hasParentheses ? ")" : ";"))
         {
-            ++i;
+            if (hasParentheses)
+            {
+                ++i;
+            }
             const std::string tokenValue = Compiler::tokens[i].Value;
             if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
                 FindType(i, Compiler::IDENTIFIER))
@@ -43,7 +43,7 @@ ASTnode::Node Helper::parseCondition(int &i)
             }
             const std::string operatorValue = Compiler::tokens[i].Value;
             if (FindKeywords(i, ">") || FindKeywords(i, "<") || FindKeywords(i, ">=") || FindKeywords(i, "<=") ||
-                FindKeywords(i, "==") || FindKeywords(i, "!="))
+                FindKeywords(i, "==") || FindKeywords(i, "!=")) //test
             {
                 Operator = ASTnode::MakeNode(ASTnode::OPERATOR, operatorValue);
             }

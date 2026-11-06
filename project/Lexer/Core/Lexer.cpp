@@ -26,9 +26,18 @@ void Compiler::Lexer(const std::string &input, size_t &i)
             c.ParseInt(input, i);
             continue;
         }
+        if (std::isalnum(static_cast<unsigned char>(currentSchar)) || currentSchar == '_')
+        {
+            c.keywords(input, i);
+            continue;
+        }
 
-        c.keywords(input, i);
+        size_t previousIndex = i;
         c.Symbols(input, i);
+        if (i != previousIndex)
+        {
+            continue;
+        }
         if (currentSchar == '"')
         {
             c.ParseString(input, i);

@@ -7,10 +7,18 @@ void Compiler::Symbols(const std::string &input, std::size_t &i)
         return;
     }
 
-    std::string currentWord(1, input[i]);
-    if (std::find(Compiler::Symbol.begin(), Compiler::Symbol.end(), currentWord) != Compiler::Symbol.end())
+    const std::string *matchedSymbol = nullptr;
+    for (const std::string &symbol : Compiler::Symbol)
     {
-        Compiler::tokens.push_back({Compiler::SYMBOLS, currentWord});
-        ++i;
+        if (input.compare(i, symbol.size(), symbol) == 0 &&
+            (matchedSymbol == nullptr || symbol.size() > matchedSymbol->size()))
+        {
+            matchedSymbol = &symbol;
+        }
+    }
+    if (matchedSymbol != nullptr)
+    {
+        Compiler::tokens.push_back({Compiler::SYMBOLS, *matchedSymbol});
+        i += matchedSymbol->size();
     }
 }

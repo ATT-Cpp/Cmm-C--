@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 Helper help;
+VariableDeclaration vd;
+IterationStatement is;
 void IterationStatement::ParseWhileStatement(int &i, int &b)
 {
     if (Compiler::tokens[i].Value == "while")
@@ -14,14 +16,34 @@ void IterationStatement::ParseWhileStatement(int &i, int &b)
     }
 }
 
-void IterationStatement::ParseForStatement(int &i, int &b)
+void IterationStatement::ParseForCondition(int &i, std::string input)
 {
-    if (Compiler::tokens[i].Value == "for")
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() || Compiler::tokens[i].Value != "(")
     {
-        help.parseBlock(i);
+        return;
     }
-}
 
-void IterationStatement::ParseForCondition(int &i, int &b)
-{
+    ++i;
+    while (i >= 0 && static_cast<size_t>(i) < Compiler::tokens.size() && Compiler::tokens[i].Value != ")")
+    {
+        vd.ParseVarDecl(i);
+        if (i >= 0 && static_cast<size_t>(i) < Compiler::tokens.size() && Compiler::tokens[i].Value == ";")
+        {
+            ++i;
+            help.parseCondition(i);
+            if (i >= 0 && static_cast<size_t>(i) < Compiler::tokens.size() && Compiler::tokens[i].Value == ";")
+            {
+                ++i;
+                if (i >= 0 && static_cast<size_t>(i) < Compiler::tokens.size() && Compiler::tokens[i].Value == "++")
+                {
+                    ++i;
+                    if (i >= 0 && static_cast<size_t>(i) < Compiler::tokens.size() &&
+                        Compiler::tokens[i].Value == vd.VariableName.Value)
+                    {
+                        ++i;
+                    }
+                }
+            }
+        }
+    }
 }

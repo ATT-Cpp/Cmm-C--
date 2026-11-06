@@ -1,7 +1,7 @@
 #include "../../../Include/includes.h"
 
 Helper help;
-void ControlFlowStatement::ParseIfStatement(int &i, int &b)
+void ControlFlowStatement::ParseIfStatement(int &i)
 {
     if (help.FindKeywords(i, "if"))
     {
@@ -10,7 +10,7 @@ void ControlFlowStatement::ParseIfStatement(int &i, int &b)
     }
 }
 
-void ControlFlowStatement::ParseElseStatement(int &i, int &b)
+void ControlFlowStatement::ParseElseStatement(int &i)
 {
     if (help.FindKeywords(i, "else"))
     {
@@ -18,7 +18,7 @@ void ControlFlowStatement::ParseElseStatement(int &i, int &b)
     }
 }
 
-void ControlFlowStatement::ParseElseIfStatement(int &i, int &b)
+void ControlFlowStatement::ParseElseIfStatement(int &i)
 {
     if (help.FindKeywords(i, "else if"))
     {
