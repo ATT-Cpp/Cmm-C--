@@ -22,9 +22,9 @@ class JumpBasedStatements
 {
 
   public:
-    void ParseBreakStatement(int &i, int &b);
-    void ParseReturnStatement(int &i, int &b);
-    void ParseContinueStatement(int &i, int &b);
+    void ParseBreakStatement(int &i);
+    void ParseReturnStatement(int &i);
+    void ParseContinueStatement(int &i);
 };
 
 class VariableDeclaration
@@ -36,4 +36,9 @@ class VariableDeclaration
     ASTnode::Node VariableDeclarationNode = ASTnode::MakeNode(ASTnode::VARIABLE_DECL, "");
     ASTnode::Node VariableValue = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
     ASTnode::Node VariableName = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+};
+
+class ImportDeclaration {
+    public:
+        void ParseImportDeclaration(int& i, const std::string& input);
 };

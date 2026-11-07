@@ -25,7 +25,7 @@ class Compiler
     };
 
     inline static std::vector<std::string> Symbol{"<", ">", "==", "=",  "!=", ">=", "<=", "[",
-                                                  "]", "(", ")",  "||", "!",  "&&", ";", "++"};
+                                                  "]", "(", ")",  "||", "!",  "&&", ";", "++", "\"\""};
     inline static std::vector<std::string> Keywords{
         "fn",   "if",   "else", "for",    "while", "switch", "case", "break", "continue", "int",    "float",  "double",
         "bool", "char", "void", "string", "const", "global", "var",  "auto",  "return",   "import", "else if"};
