@@ -1,0 +1,10 @@
+For import statement:
+
+1. Check OutOfBounds Error Handling.
+2. Check wheather currentWord is import then ++i;
+3. Check OutOfBounds Errorhandling again.
+4. Check if Current Word is  " then ++i
+5. Check OutOfBounds Errorhandling again.
+6. Check if currentWord is not "(End) then ++i;
+7. Check OutOfBounds Errorhandling again.
+8. MakeNode. 

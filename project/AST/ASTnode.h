@@ -18,7 +18,6 @@ class ASTnode
         OPERATOR,
         ANDOR,
         STRUCT_DECL,
-        ENUM_DECL,
         FUNCTION_DECL,
         VARIABLE_DECL,
         IF_STATEMENT,

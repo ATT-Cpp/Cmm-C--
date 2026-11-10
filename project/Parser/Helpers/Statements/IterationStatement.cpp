@@ -14,7 +14,6 @@ void IterationStatement::ParseWhileStatement(int &i, int &b)
 void IterationStatement::ParseForCondition(int &i, std::string input)
 {
     (void)input;
-    ForStatementNode = ASTnode::MakeNode(ASTnode::FOR_STATEMENT, "");
 
     if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size()) {
         return;
@@ -56,8 +55,6 @@ void IterationStatement::ParseForCondition(int &i, std::string input)
     if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size()) {
         return;
     }
-
-    ASTnode::Node increment = ASTnode::MakeNode(ASTnode::OPERATOR, "++");
     increment.Children.push_back(ASTnode::MakeNode(ASTnode::IDENTIFIER, Compiler::tokens[i].Value));
     ForStatementNode.Children.push_back(increment);
     ++i;

@@ -14,6 +14,8 @@ class IterationStatement
     void ParseForStatement(int &i, std::string input);
     void ParseForCondition(int &i, std::string input);
     ASTnode::Node ForStatementNode = ASTnode::MakeNode(ASTnode::FOR_STATEMENT, "");
+    ASTnode::Node increment = ASTnode::MakeNode(ASTnode::OPERATOR, "++");
+    
 };
 
 class JumpBasedStatements
@@ -41,4 +43,6 @@ class VariableDeclaration
 class ImportDeclaration {
     public:
         void ParseImportDeclaration(int& i, const std::string& input);
+        ASTnode::Node Import = ASTnode::MakeNode(ASTnode::IMPORT, "");
+        ASTnode::Node LibraryName = ASTnode::MakeNode(ASTnode::STRING, "");
 };

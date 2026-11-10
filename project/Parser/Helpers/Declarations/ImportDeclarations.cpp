@@ -1,33 +1,54 @@
 #include "../../../Include/includes.h"
 Helper help;
 
-void ImportDeclaration::ParseImportDeclaration(int& i, const std::string& input) {
-    (void)input;
-
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size()) {
+void ImportDeclaration::ParseImportDeclaration(int& i,const std::string& input) {
+    std::string currentToken;
+    if(static_cast<size_t> (i) >= Compiler::tokens.size()) {
         return;
     }
-
-    if (!help.FindKeywords(i, "import")) {
-        return;
-    }
-
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size()) {
-        return;
-    }
-
-    const bool isValidImportTarget = Compiler::tokens[i].TokenType == Compiler::STRING || Compiler::tokens[i].Value == "\"\"";
-    if (!isValidImportTarget) {
+    currentToken += Compiler::tokens[i].Value;
+    
+    if(Compiler::tokens[i].Value != "import") {
         return;
     }
     ++i;
+    currentToken.clear();
+    currentToken += Compiler::tokens[i].Value;
 
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size()) {
+    if(static_cast<size_t> (i) >= Compiler::tokens.size()) {
         return;
     }
 
-    if (Compiler::tokens[i].Value != ";") {
+    if(Compiler::tokens[i].Value != "\"") {
         return;
     }
     ++i;
+    currentToken.clear();
+    currentToken += Compiler::tokens[i].Value;
+
+    if(static_cast<size_t> (i) >= Compiler::tokens.size()) {
+        return;
+    }
+
+    while(Compiler::tokens[i].Value != "\"")
+    {
+        LibraryName = ASTnode::MakeNode(ASTnode::STRING, currentToken);
+
+        ++i;
+
+        currentToken.clear();
+        currentToken += Compiler::tokens[i].Value;
+    }
+
+    if(static_cast<size_t> (i) >= Compiler::tokens.size()) {
+        return;
+    }
+
+    if(Compiler::tokens[i].Value != ";") {
+        return;
+    }
+    ++i;
+    currentToken.clear();
+    currentToken += Compiler::tokens[i].Value;
+    
 }
