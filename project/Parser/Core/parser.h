@@ -1,7 +1,4 @@
 #include "../../Lexer/Core/lexer.h"
-#include <iostream>
-#include <string>
-#include <vector>
 class ControlFlowStatement
 {
   public:
@@ -16,6 +13,7 @@ class IterationStatement
     void ParseWhileStatement(int &i, int &b);
     void ParseForStatement(int &i, std::string input);
     void ParseForCondition(int &i, std::string input);
+    ASTnode::Node ForStatementNode = ASTnode::MakeNode(ASTnode::FOR_STATEMENT, "");
 };
 
 class JumpBasedStatements
@@ -37,6 +35,8 @@ class VariableDeclaration
     ASTnode::Node VariableValue = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
     ASTnode::Node VariableName = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
 };
+
+
 
 class ImportDeclaration {
     public:

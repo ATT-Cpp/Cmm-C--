@@ -40,3 +40,17 @@ void JumpBasedStatements::ParseReturnStatement(int &i) {
     }
     ++i;
 }
+
+void JumpBasedStatements::ParseContinueStatement(int &i) {
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
+        Compiler::tokens[i].Value != "continue") {
+        return;
+    }
+    ++i;
+
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
+        Compiler::tokens[i].Value != ";") {
+        return;
+    }
+    ++i;
+}

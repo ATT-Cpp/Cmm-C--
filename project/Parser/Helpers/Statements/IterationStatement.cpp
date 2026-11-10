@@ -1,9 +1,4 @@
-#include "../../../Helper/helper.h"
-#include "../../../Lexer/Core/lexer.h"
-#include "../../Core/parser.h"
-#include <iostream>
-#include <string>
-#include <vector>
+#include "../../../Include/includes.h"
 Helper help;
 VariableDeclaration vd;
 IterationStatement is;
@@ -18,32 +13,57 @@ void IterationStatement::ParseWhileStatement(int &i, int &b)
 
 void IterationStatement::ParseForCondition(int &i, std::string input)
 {
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() || Compiler::tokens[i].Value != "(")
-    {
+    (void)input;
+    ForStatementNode = ASTnode::MakeNode(ASTnode::FOR_STATEMENT, "");
+
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size()) {
         return;
     }
 
+    if (!help.FindKeywords(i, "for")) {
+        return;
+    }
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size()) {
+        return;
+    }
+
+    if (!help.FindKeywords(i, "(")) {
+        return;
+    }
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size()) {
+        return;
+    }
+
+    vd.ParseVarDecl(i);
+    ForStatementNode.Children.push_back(vd.VariableDeclarationNode);
+
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
+        !help.FindKeywords(i, ";")) {
+        return;
+    }
+
+    ForStatementNode.Children.push_back(help.parseCondition(i));
+
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
+        !help.FindKeywords(i, ";")) {
+        return;
+    }
+
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
+        !help.FindKeywords(i, "++")) {
+        return;
+    }
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size()) {
+        return;
+    }
+
+    ASTnode::Node increment = ASTnode::MakeNode(ASTnode::OPERATOR, "++");
+    increment.Children.push_back(ASTnode::MakeNode(ASTnode::IDENTIFIER, Compiler::tokens[i].Value));
+    ForStatementNode.Children.push_back(increment);
     ++i;
-    while (i >= 0 && static_cast<size_t>(i) < Compiler::tokens.size() && Compiler::tokens[i].Value != ")")
-    {
-        vd.ParseVarDecl(i);
-        if (i >= 0 && static_cast<size_t>(i) < Compiler::tokens.size() && Compiler::tokens[i].Value == ";")
-        {
-            ++i;
-            help.parseCondition(i);
-            if (i >= 0 && static_cast<size_t>(i) < Compiler::tokens.size() && Compiler::tokens[i].Value == ";")
-            {
-                ++i;
-                if (i >= 0 && static_cast<size_t>(i) < Compiler::tokens.size() && Compiler::tokens[i].Value == "++")
-                {
-                    ++i;
-                    if (i >= 0 && static_cast<size_t>(i) < Compiler::tokens.size() &&
-                        Compiler::tokens[i].Value == vd.VariableName.Value)
-                    {
-                        ++i;
-                    }
-                }
-            }
-        }
+
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
+        !help.FindKeywords(i, ")")) {
+        return;
     }
 }
