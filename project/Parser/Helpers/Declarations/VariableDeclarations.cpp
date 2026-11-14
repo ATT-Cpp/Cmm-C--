@@ -1,5 +1,6 @@
 #include "../../../Include/includes.h"
 Helper help;
+VariableDeclaration vd;
 void VariableDeclaration::ParseVarDecl(int &i)
 {
 
@@ -29,6 +30,13 @@ void VariableDeclaration::ParseVarDecl(int &i)
                 if (help.FindKeywords(i, "="))
                 {
                     ParseDataTypes(i);
+                }
+                else {
+                    if (Compiler::tokens[i].Value == vd.VariableName.Value)
+                    {
+                        VariableName = ASTnode::MakeNode(ASTnode::DATA_TYPES, Compiler::tokens[i].Value);
+                        ++i;
+                    }
                 }
             }
         }

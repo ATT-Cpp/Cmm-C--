@@ -8,6 +8,7 @@ class ASTnode
   public:
     enum Node_Properties
     {
+        IDENTIFIER,
         DATA_TYPES,
         STRING,
         INT,

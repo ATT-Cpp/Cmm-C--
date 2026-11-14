@@ -46,3 +46,12 @@ class ImportDeclaration {
         ASTnode::Node Import = ASTnode::MakeNode(ASTnode::IMPORT, "");
         ASTnode::Node LibraryName = ASTnode::MakeNode(ASTnode::STRING, "");
 };
+
+class FunctionDeclaration {
+    public:
+        void ParseFunctionDeclaration(int& i);
+        void ParseArguments(int& i);
+        void ParseVariableDecl(int& i);
+        ASTnode::Node Arguments = ASTnode::MakeNode(ASTnode::FUNCTION_DECL, "");
+        ASTnode::Node VariableDeclFunc = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+};

@@ -6,6 +6,10 @@
 Helper help {};
 bool Helper::FindType(int &i, Compiler::Token type)
 {
+    if (!Universal(i, {true, true})) {
+        return false;
+    }
+
     if (Compiler::tokens[i].TokenType != type)
     {
         return false;
@@ -16,24 +20,50 @@ bool Helper::FindType(int &i, Compiler::Token type)
 
 bool Helper::FindKeywords(int &i, std::string expected)
 {
-    if (Compiler::tokens[i].Value != expected)
-    {
+    if (!Universal(i, {true, true, true, expected})) {
         return false;
     }
     ++i;
     return true;
 }
+
+bool Helper::Universal(int& i, options opt) {
+    if (opt.inrange_i && i < 0) {
+        return false;
+    }
+
+    if ((opt.inrange_i_tokens || opt.Value_) &&
+        (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())) {
+        return false;
+    }
+
+    if (opt.Value_) {
+        if (Compiler::tokens[i].Value != opt.Value) {
+            return false;
+        }
+    }
+
+    return opt.inrange_i || opt.inrange_i_tokens || opt.Value_;
+}
 ASTnode::Node Helper::parseCondition(int &i)
 {
-    bool hasParentheses = Compiler::tokens[i].Value == "(";
-    if (hasParentheses || Compiler::tokens[i].Value != ";")
+    if (!Universal(i, {true, true})) {
+        return ConditionNode;
+    }
+
+    bool hasParentheses = Universal(i, {true, true, true, "("});
+    if (hasParentheses || !Universal(i, {true, true, true, ";"}))
     {
-        while (static_cast<size_t>(i) < Compiler::tokens.size() &&
-               Compiler::tokens[i].Value != (hasParentheses ? ")" : ";"))
+        const std::string terminator = hasParentheses ? ")" : ";";
+        while (Universal(i, {true, true}) &&
+               !Universal(i, {true, true, true, terminator}))
         {
             if (hasParentheses)
             {
                 ++i;
+            }
+            if (!Universal(i, {true, true})) {
+                return ConditionNode;
             }
             const std::string tokenValue = Compiler::tokens[i].Value;
             if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
@@ -41,11 +71,17 @@ ASTnode::Node Helper::parseCondition(int &i)
             { 
                 Left = ASTnode::MakeNode(ASTnode::DATA_TYPES, tokenValue);
             }
+            if (!Universal(i, {true, true})) {
+                return ConditionNode;
+            }
             const std::string operatorValue = Compiler::tokens[i].Value;
             if (FindKeywords(i, ">") || FindKeywords(i, "<") || FindKeywords(i, ">=") || FindKeywords(i, "<=") ||
                 FindKeywords(i, "==") || FindKeywords(i, "!=")) //test
             {
                 Operator = ASTnode::MakeNode(ASTnode::OPERATOR, operatorValue);
+            }
+            if (!Universal(i, {true, true})) {
+                return ConditionNode;
             }
             const std::string rightValue = Compiler::tokens[i].Value;
             if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
@@ -53,18 +89,30 @@ ASTnode::Node Helper::parseCondition(int &i)
             {
                 Right = ASTnode::MakeNode(ASTnode::DATA_TYPES, rightValue);
             }
-            if (Compiler::tokens[i].Value == "&&" || Compiler::tokens[i].Value == "||")
+            if (!Universal(i, {true, true})) {
+                return ConditionNode;
+            }
+            if (Universal(i, {true, true, true, "&&"}) ||
+                Universal(i, {true, true, true, "||"}))
             {
                 LogicGates = ASTnode::MakeNode(ASTnode::ANDOR, Compiler::tokens[i].Value);
             }
-            while (Compiler::tokens[i].Value == "&&" || Compiler::tokens[i].Value == "||")
+            while (Universal(i, {true, true}) &&
+                   (Universal(i, {true, true, true, "&&"}) ||
+                    Universal(i, {true, true, true, "||"})))
             {
                 ++i;
+                if (!Universal(i, {true, true})) {
+                    return ConditionNode;
+                }
                 const std::string tokenValue = Compiler::tokens[i].Value;
                 if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
                     FindType(i, Compiler::IDENTIFIER))
                 {
                     Left = ASTnode::MakeNode(ASTnode::DATA_TYPES, tokenValue);
+                }
+                if (!Universal(i, {true, true})) {
+                    return ConditionNode;
                 }
                 const std::string operatorValue = Compiler::tokens[i].Value;
                 if (FindKeywords(i, ">") || FindKeywords(i, "<") || FindKeywords(i, ">=") || FindKeywords(i, "<=") ||
@@ -72,11 +120,17 @@ ASTnode::Node Helper::parseCondition(int &i)
                 {
                     Operator = ASTnode::MakeNode(ASTnode::OPERATOR, operatorValue);
                 }
+                if (!Universal(i, {true, true})) {
+                    return ConditionNode;
+                }
                 const std::string rightValue = Compiler::tokens[i].Value;
                 if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
                     FindType(i, Compiler::IDENTIFIER))
                 {
                     Right = ASTnode::MakeNode(ASTnode::DATA_TYPES, rightValue);
+                }
+                if (!Universal(i, {true, true})) {
+                    return ConditionNode;
                 }
             }
         }
@@ -90,19 +144,29 @@ ASTnode::Node Helper::parseCondition(int &i)
 
 void Helper::parseBlock(int &i)
 {
+    if (!Universal(i, {true, true})) {
+        return;
+    }
 
-    if (Compiler::tokens[i].Value == "[")
+    if (Universal(i, {true, true, true, "["}))
     {
 
-        while (Compiler::tokens[i].Value != "]")
+        while (Universal(i, {true, true}) &&
+               !Universal(i, {true, true, true, "]"}))
         {
 
             ++i;
-            if (Compiler::tokens[i].Value == "if")
+            if (!Universal(i, {true, true})) {
+                return;
+            }
+            if (Universal(i, {true, true, true, "if"}))
             {
                 help.parseCondition(i);
             }
-            if (Compiler::tokens[i].Value == "while") {
+            if (!Universal(i, {true, true})) {
+                return;
+            }
+            if (Universal(i, {true, true, true, "while"})) {
             
                 help.parseCondition(i);
             }

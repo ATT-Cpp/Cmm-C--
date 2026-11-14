@@ -1,59 +1,59 @@
-Project: Programming Language.
+    Project: Programming Language.
 
-----------------------------
-Knowledge GAPS write here
-----------------------------
+    ----------------------------
+    Knowledge GAPS write here
+    ----------------------------
 
-- Parser
--
--
--
--
+    -
+    -
+    -
+    -
+    -
 
------------------------------
-Main Systems
------------------------------
-Compiler
+    -----------------------------
+    Main Systems
+    -----------------------------
+    Compiler
 
-Lexer
-- Source Code -> Tokens
+    Lexer
+    - Source Code -> Tokens
 
-Parser
-- Tokens -> Program Structure
+    Parser
+    - Tokens -> Program Structure
 
-AST
-- Stores Program Structure
+    AST
+    - Stores Program Structure
 
-Semantic Analysis
-- Check types
-- Check variables exist
-- Check functions exist
+    Semantic Analysis
+    - Check types
+    - Check variables exist
+    - Check functions exist
 
-Code Generator
-- AST -> Output
+    Code Generator
+    - AST -> Output
 
------------------------------------------
-Syntax for language
------------------------------------------
--fn funcname() []
+    -----------------------------------------
+    Syntax for language
+    -----------------------------------------
+    -fn funcname() []
 
--this ->;
--return;
+    -this ->;
+    -return;
 
--import stdlib
+    -import stdlib
 
--if, else, for , while , switch, case, break, continue;
+    -if, else, for , while , switch, case, break, continue;
 
--int, float, bool, char, void, string;
+    -int, float, bool, char, void, string;
 
--const, global, STATIC var = ----;
+    -const, global, STATIC var = ----;
 
--variable creation:
+    -variable creation:
 
--var auto = 5, "hello" etc;
--var int h1 = 5;
+    -var auto = 5, "hello" etc;
+    -var int h1 = 5;
 
--language rules: case sensitive, not space sensitive, semicolon at the end of sentence, blocks use [], reserved keywords, parantheses;
+    -language rules: case sensitive, not space sensitive, semicolon at the end of sentence, blocks use [], reserved keywords, parantheses;
 
 
 
