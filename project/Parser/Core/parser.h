@@ -50,8 +50,18 @@ class ImportDeclaration {
 class FunctionDeclaration {
     public:
         void ParseFunctionDeclaration(int& i);
+        void ParseFunctionBody(int& i);
         void ParseArguments(int& i);
-        void ParseVariableDecl(int& i);
+        void ParseVariableDeclFunc(int& i);
         ASTnode::Node Arguments = ASTnode::MakeNode(ASTnode::FUNCTION_DECL, "");
         ASTnode::Node VariableDeclFunc = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+};
+
+class Struct {
+    public:
+        void ParseStructDeclaration(int& i);
+        void ParseStructBody(int& i);
+        ASTnode::Node StructName = ASTnode::MakeNode(ASTnode::STRUCT_DECL, "");
+        ASTnode::Node VariableDeclStruct = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+        void ParseVariableDeclStruct(int& i); 
 };
