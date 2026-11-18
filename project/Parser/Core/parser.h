@@ -10,9 +10,9 @@ class ControlFlowStatement
 class IterationStatement
 {
   public:
-    void ParseWhileStatement(int &i, int &b);
-    void ParseForStatement(int &i, std::string input);
-    void ParseForCondition(int &i, std::string input);
+    inline void ParseWhileStatement(int &i, int &b);
+    inline void ParseForStatement(int &i, std::string input);
+    inline void ParseForCondition(int &i, std::string input);
     ASTnode::Node ForStatementNode = ASTnode::MakeNode(ASTnode::FOR_STATEMENT, "");
     ASTnode::Node increment = ASTnode::MakeNode(ASTnode::OPERATOR, "++");
     
@@ -22,17 +22,17 @@ class JumpBasedStatements
 {
 
   public:
-    void ParseBreakStatement(int &i);
-    void ParseReturnStatement(int &i);
-    void ParseContinueStatement(int &i);
+    inline void ParseBreakStatement(int &i);
+    inline void ParseReturnStatement(int &i);
+    inline void ParseContinueStatement(int &i);
 };
 
 class VariableDeclaration
 {
 
   public:
-    void ParseVarDecl(int &i);
-    void ParseDataTypes(int &i);
+    inline void ParseVarDecl(int &i);
+    inline void ParseDataTypes(int &i);
     ASTnode::Node VariableDeclarationNode = ASTnode::MakeNode(ASTnode::VARIABLE_DECL, "");
     ASTnode::Node VariableValue = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
     ASTnode::Node VariableName = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
@@ -42,26 +42,34 @@ class VariableDeclaration
 
 class ImportDeclaration {
     public:
-        void ParseImportDeclaration(int& i, const std::string& input);
+        inline void ParseImportDeclaration(int& i, const std::string& input);
         ASTnode::Node Import = ASTnode::MakeNode(ASTnode::IMPORT, "");
         ASTnode::Node LibraryName = ASTnode::MakeNode(ASTnode::STRING, "");
 };
 
 class FunctionDeclaration {
     public:
-        void ParseFunctionDeclaration(int& i);
-        void ParseFunctionBody(int& i);
-        void ParseArguments(int& i);
-        void ParseVariableDeclFunc(int& i);
+        inline void ParseFunctionDeclaration(int& i);
+        inline void ParseFunctionBody(int& i);
+        inline void ParseArguments(int& i);
+        inline void ParseVariableDeclFunc(int& i);
+        
         ASTnode::Node Arguments = ASTnode::MakeNode(ASTnode::FUNCTION_DECL, "");
         ASTnode::Node VariableDeclFunc = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
 };
-
+class Enum {
+    public:
+        inline void ParseEnumDeclaration(int& i);
+        inline void ParseEnumBody(int& i);
+        ASTnode::Node EnumName = ASTnode::MakeNode(ASTnode::STRING, "");
+        ASTnode::Node EnumBodyNames = ASTnode::MakeNode(ASTnode::IDENTIFIER, "");
+        ASTnode::Node Enum = ASTnode::MakeNode(ASTnode::ENUM_DECL, "");
+};
 class Struct {
     public:
-        void ParseStructDeclaration(int& i);
-        void ParseStructBody(int& i);
+        inline void ParseStructDeclaration(int& i);
+        inline void ParseStructBody(int& i);
+        inline void ParseVariableDeclStruct(int& i);
         ASTnode::Node StructName = ASTnode::MakeNode(ASTnode::STRUCT_DECL, "");
         ASTnode::Node VariableDeclStruct = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
-        void ParseVariableDeclStruct(int& i); 
 };

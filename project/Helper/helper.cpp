@@ -10,7 +10,7 @@ bool Helper::FindType(int &i, Compiler::Token type)
         return false;
     }
 
-    if (Compiler::tokens[i].TokenType != type)
+    if (Compiler::tokens[static_cast<size_t> (i)].TokenType != type)
     {
         return false;
     }
@@ -38,7 +38,7 @@ bool Helper::Universal(int& i, options opt) {
     }
 
     if (opt.Value_) {
-        if (Compiler::tokens[i].Value != opt.Value) {
+        if (Compiler::tokens[static_cast<size_t> (i)].Value != opt.Value) {
             return false;
         }
     }
@@ -65,7 +65,7 @@ ASTnode::Node Helper::parseCondition(int &i)
             if (!Universal(i, {true, true})) {
                 return ConditionNode;
             }
-            const std::string tokenValue = Compiler::tokens[i].Value;
+            const std::string& tokenValue = Compiler::tokens[static_cast<size_t> (i)].Value;
             if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
                 FindType(i, Compiler::IDENTIFIER))
             { 
@@ -74,7 +74,7 @@ ASTnode::Node Helper::parseCondition(int &i)
             if (!Universal(i, {true, true})) {
                 return ConditionNode;
             }
-            const std::string operatorValue = Compiler::tokens[i].Value;
+            const std::string& operatorValue = Compiler::tokens[static_cast<size_t> (i)].Value;
             if (FindKeywords(i, ">") || FindKeywords(i, "<") || FindKeywords(i, ">=") || FindKeywords(i, "<=") ||
                 FindKeywords(i, "==") || FindKeywords(i, "!=")) //test
             {
@@ -83,7 +83,7 @@ ASTnode::Node Helper::parseCondition(int &i)
             if (!Universal(i, {true, true})) {
                 return ConditionNode;
             }
-            const std::string rightValue = Compiler::tokens[i].Value;
+            const std::string& rightValue = Compiler::tokens[static_cast<size_t> (i)].Value;
             if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
                 FindType(i, Compiler::IDENTIFIER))
             {
@@ -95,7 +95,7 @@ ASTnode::Node Helper::parseCondition(int &i)
             if (Universal(i, {true, true, true, "&&"}) ||
                 Universal(i, {true, true, true, "||"}))
             {
-                LogicGates = ASTnode::MakeNode(ASTnode::ANDOR, Compiler::tokens[i].Value);
+                LogicGates = ASTnode::MakeNode(ASTnode::ANDOR, Compiler::tokens[static_cast<size_t> (i)].Value);
             }
             while (Universal(i, {true, true}) &&
                    (Universal(i, {true, true, true, "&&"}) ||
@@ -105,7 +105,7 @@ ASTnode::Node Helper::parseCondition(int &i)
                 if (!Universal(i, {true, true})) {
                     return ConditionNode;
                 }
-                const std::string tokenValue = Compiler::tokens[i].Value;
+                const std::string& tokenValue = Compiler::tokens[static_cast<size_t> (i)].Value;
                 if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
                     FindType(i, Compiler::IDENTIFIER))
                 {
@@ -114,7 +114,7 @@ ASTnode::Node Helper::parseCondition(int &i)
                 if (!Universal(i, {true, true})) {
                     return ConditionNode;
                 }
-                const std::string operatorValue = Compiler::tokens[i].Value;
+                const std::string& operatorValue = Compiler::tokens[static_cast<size_t> (i)].Value;
                 if (FindKeywords(i, ">") || FindKeywords(i, "<") || FindKeywords(i, ">=") || FindKeywords(i, "<=") ||
                     FindKeywords(i, "==") || FindKeywords(i, "!="))
                 {
@@ -123,7 +123,7 @@ ASTnode::Node Helper::parseCondition(int &i)
                 if (!Universal(i, {true, true})) {
                     return ConditionNode;
                 }
-                const std::string rightValue = Compiler::tokens[i].Value;
+                const std::string& rightValue = Compiler::tokens[static_cast<size_t> (i)].Value;
                 if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
                     FindType(i, Compiler::IDENTIFIER))
                 {

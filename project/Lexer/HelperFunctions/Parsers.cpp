@@ -7,18 +7,17 @@ void Compiler::ParseString(const std::string &input, size_t &i)
         return;
     }
 
-    std::string word;
     ++i;
+    const size_t start = i;
 
     while (i < input.size() && input[i] != '"')
     {
-        word += input[i];
         ++i;
     }
 
     if (i < input.size())
     {
-        Compiler::tokens.push_back({Compiler::STRING, word});
+        Compiler::tokens.push_back({Compiler::STRING, input.substr(start, i - start)});
         ++i;
     }
 }
@@ -30,15 +29,14 @@ void Compiler::ParseInt(const std::string &input, size_t &i)
         return;
     }
 
-    std::string currentWord;
+    const size_t start = i;
 
     while (i < input.size() && std::isdigit(static_cast<unsigned char>(input[i])))
     {
-        currentWord += input[i];
         ++i;
     }
 
-    Compiler::tokens.push_back({Compiler::INT, currentWord});
+    Compiler::tokens.push_back({Compiler::INT, input.substr(start, i - start)});
 }
 
 void Compiler::ParseChar(const std::string &input, size_t &i)
@@ -72,14 +70,14 @@ void Compiler::ParseBool(const std::string &input, size_t &i)
         return;
     }
 
-    std::string currentWord;
+    const size_t start = i;
 
     while (i < input.size() && std::isalpha(static_cast<unsigned char>(input[i])))
     {
-        currentWord += input[i];
         ++i;
     }
 
+    const std::string currentWord = input.substr(start, i - start);
     if (currentWord == "true" || currentWord == "false")
     {
         Compiler::tokens.push_back({Compiler::BOOL, currentWord});

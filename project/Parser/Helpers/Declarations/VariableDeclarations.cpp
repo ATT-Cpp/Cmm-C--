@@ -10,7 +10,7 @@ void VariableDeclaration::ParseVarDecl(int &i)
         VariableName = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
         if (help.FindKeywords(i, "auto"))
         {
-            const std::string text = Compiler::tokens[i].Value;
+            const std::string text = Compiler::tokens[static_cast<size_t> (i)].Value;
             if (help.FindType(i, Compiler::IDENTIFIER))
             {
                 VariableName = ASTnode::MakeNode(ASTnode::IDENTIFIER, text);
@@ -23,7 +23,7 @@ void VariableDeclaration::ParseVarDecl(int &i)
         else if (help.FindKeywords(i, "string") || help.FindKeywords(i, "int") || help.FindKeywords(i, "char") ||
                  help.FindKeywords(i, "bool"))
         {
-            const std::string text = Compiler::tokens[i].Value;
+            const std::string text = Compiler::tokens[static_cast<size_t> (i)].Value;
             if (help.FindType(i, Compiler::IDENTIFIER))
             {
                 VariableName = ASTnode::MakeNode(ASTnode::IDENTIFIER, text);
@@ -32,9 +32,9 @@ void VariableDeclaration::ParseVarDecl(int &i)
                     ParseDataTypes(i);
                 }
                 else {
-                    if (Compiler::tokens[i].Value == vd.VariableName.Value)
+                    if (Compiler::tokens[static_cast<size_t> (i)].Value == vd.VariableName.Value)
                     {
-                        VariableName = ASTnode::MakeNode(ASTnode::DATA_TYPES, Compiler::tokens[i].Value);
+                        VariableName = ASTnode::MakeNode(ASTnode::DATA_TYPES, Compiler::tokens[static_cast<size_t> (i)].Value);
                         ++i;
                     }
                 }
@@ -45,7 +45,7 @@ void VariableDeclaration::ParseVarDecl(int &i)
 
 void VariableDeclaration::ParseDataTypes(int &i)
 {
-    const std::string text = Compiler::tokens[i].Value;
+    const std::string text = Compiler::tokens[static_cast<size_t> (i)].Value;
 
     if (help.FindType(i, Compiler::STRING))
     {

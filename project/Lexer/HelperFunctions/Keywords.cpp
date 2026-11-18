@@ -2,20 +2,19 @@
 
 void Compiler::keywords(const std::string &input, size_t &i)
 {
-    std::string currentWord;
     if (i >= input.size())
     {
         std::cerr << "Error Tokenizing";
         return;
     }
+    const size_t start = i;
     while (i < input.size() && (std::isalnum(static_cast<unsigned char>(input[i])) || input[i] == '_'))
     {
-        currentWord += input[i];
         ++i;
     }
-    bool isSymbol = std::find(Compiler::Symbol.begin(), Compiler::Symbol.end(), currentWord) != Compiler::Symbol.end();
+    const std::string currentWord = input.substr(start, i - start);
 
-    if (!currentWord.empty() && !isSymbol)
+    if (!currentWord.empty())
     {
         if (std::find(Keywords.begin(), Keywords.end(), currentWord) != Keywords.end())
         {

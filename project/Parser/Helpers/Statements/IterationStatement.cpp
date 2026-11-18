@@ -4,7 +4,7 @@ VariableDeclaration vd;
 IterationStatement is;
 void IterationStatement::ParseWhileStatement(int &i, int &b)
 {
-    if (Compiler::tokens[i].Value == "while")
+    if (Compiler::tokens[static_cast<size_t> (i)].Value == "while")
     {
         help.parseCondition(i);
         help.parseBlock(i);
@@ -55,7 +55,7 @@ void IterationStatement::ParseForCondition(int &i, std::string input)
     if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size()) {
         return;
     }
-    increment.Children.push_back(ASTnode::MakeNode(ASTnode::IDENTIFIER, Compiler::tokens[i].Value));
+    increment.Children.push_back(ASTnode::MakeNode(ASTnode::IDENTIFIER, Compiler::tokens[static_cast<size_t> (i)].Value));
     ForStatementNode.Children.push_back(increment);
     ++i;
 

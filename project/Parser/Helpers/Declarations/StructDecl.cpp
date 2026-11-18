@@ -14,7 +14,7 @@ void Struct::ParseStructDeclaration(int& i) {
     if(!help.Universal(i, {true, true, false, ""})) {
         return;
     }
-    if(Compiler::tokens[i].TokenType != Compiler::IDENTIFIER) {
+    if(Compiler::tokens[static_cast<size_t> (i)].TokenType != Compiler::IDENTIFIER) {
         return;
     }
     ++i;
@@ -72,10 +72,10 @@ void Struct::ParseVariableDeclStruct(int& i) {
     if (!help.Universal(i, {true, true, false, ""})) {
         return;
     }
-    if(Compiler::tokens[i].TokenType != Compiler::IDENTIFIER) {
+    if(Compiler::tokens[static_cast<size_t> (i)].TokenType != Compiler::IDENTIFIER) {
         return;
     }
-    VariableDeclStruct.Value = Compiler::tokens[i].Value;
+    VariableDeclStruct.Value = Compiler::tokens[static_cast<size_t> (i)].Value;
     ++i;
     //end
     if (!help.Universal(i, {true, true, false, ""})) {

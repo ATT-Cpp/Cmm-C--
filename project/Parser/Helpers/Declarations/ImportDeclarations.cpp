@@ -6,49 +6,49 @@ void ImportDeclaration::ParseImportDeclaration(int& i,const std::string& input) 
     if(static_cast<size_t> (i) >= Compiler::tokens.size()) {
         return;
     }
-    currentToken += Compiler::tokens[i].Value;
+    currentToken += Compiler::tokens[static_cast<size_t> (i)].Value;
     
-    if(Compiler::tokens[i].Value != "import") {
+    if(Compiler::tokens[static_cast<size_t> (i)].Value != "import") {
         return;
     }
     ++i;
     currentToken.clear();
-    currentToken += Compiler::tokens[i].Value;
+    currentToken += Compiler::tokens[static_cast<size_t> (i)].Value;
 
     if(static_cast<size_t> (i) >= Compiler::tokens.size()) {
         return;
     }
 
-    if(Compiler::tokens[i].Value != "\"") {
+    if(Compiler::tokens[static_cast<size_t> (i)].Value != "\"") {
         return;
     }
     ++i;
     currentToken.clear();
-    currentToken += Compiler::tokens[i].Value;
+    currentToken += Compiler::tokens[static_cast<size_t> (i)].Value;
 
     if(static_cast<size_t> (i) >= Compiler::tokens.size()) {
         return;
     }
 
-    while(Compiler::tokens[i].Value != "\"")
+    while(Compiler::tokens[static_cast<size_t> (i)].Value != "\"")
     {
         LibraryName = ASTnode::MakeNode(ASTnode::STRING, currentToken);
 
         ++i;
 
         currentToken.clear();
-        currentToken += Compiler::tokens[i].Value;
+        currentToken += Compiler::tokens[static_cast<size_t> (i)].Value;
     }
 
     if(static_cast<size_t> (i) >= Compiler::tokens.size()) {
         return;
     }
 
-    if(Compiler::tokens[i].Value != ";") {
+    if(Compiler::tokens[static_cast<size_t> (i)].Value != ";") {
         return;
     }
     ++i;
     currentToken.clear();
-    currentToken += Compiler::tokens[i].Value;
+    currentToken += Compiler::tokens[static_cast<size_t> (i)].Value;
     
 }

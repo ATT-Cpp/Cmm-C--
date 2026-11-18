@@ -1,0 +1,38 @@
+Function Declaration:
+with brackets:
+fn main() [ ]
+
+without brackets:
+fn main []
+
+ps:If there are no arguments, You dont need brackets
+
+Variable Declaration:
+Automatic:
+var auto hello = 50;
+Manual:
+var int hello = 50;
+
+Struct Declaration:
+
+same as C++ but variable declaration and using [] instead of {} is diffrent
+
+Enum Declaration:
+
+ALSO same as C++ but using [] instead;
+
+import:
+
+import "string";
+
+misc:
+
+break;
+continue;
+return;
+
+if, else, for, while, else if:
+
+ALL same as C++ BUT using [] instead;
+
+ps: suggest low level syntax to make my language more low level

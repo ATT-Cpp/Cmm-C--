@@ -2,13 +2,13 @@
 
 void JumpBasedStatements::ParseBreakStatement(int &i) {
     if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
-        Compiler::tokens[i].Value != "break") {
+        Compiler::tokens[static_cast<size_t> (i)].Value != "break") {
         return;
     }
     ++i;
 
     if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
-        Compiler::tokens[i].Value != ";") {
+        Compiler::tokens[static_cast<size_t> (i)].Value != ";") {
         return;
     }
     ++i;
@@ -16,7 +16,7 @@ void JumpBasedStatements::ParseBreakStatement(int &i) {
 
 void JumpBasedStatements::ParseReturnStatement(int &i) {
     if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
-        Compiler::tokens[i].Value != "return") {
+        Compiler::tokens[static_cast<size_t> (i)].Value != "return") {
         return;
     }
 
@@ -25,17 +25,17 @@ void JumpBasedStatements::ParseReturnStatement(int &i) {
         return;
     }
 
-    const bool isValid = Compiler::tokens[i].TokenType == Compiler::STRING ||
-                         Compiler::tokens[i].TokenType == Compiler::BOOL ||
-                         Compiler::tokens[i].TokenType == Compiler::CHAR ||
-                         Compiler::tokens[i].TokenType == Compiler::INT;
+    const bool isValid = Compiler::tokens[static_cast<size_t> (i)].TokenType == Compiler::STRING ||
+                         Compiler::tokens[static_cast<size_t> (i)].TokenType == Compiler::BOOL ||
+                         Compiler::tokens[static_cast<size_t> (i)].TokenType == Compiler::CHAR ||
+                         Compiler::tokens[static_cast<size_t> (i)].TokenType == Compiler::INT;
     if (!isValid) {
         return;
     }
     ++i;
 
     if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
-        Compiler::tokens[i].Value != ";") {
+        Compiler::tokens[static_cast<size_t> (i)].Value != ";") {
         return;
     }
     ++i;
@@ -43,13 +43,13 @@ void JumpBasedStatements::ParseReturnStatement(int &i) {
 
 void JumpBasedStatements::ParseContinueStatement(int &i) {
     if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
-        Compiler::tokens[i].Value != "continue") {
+        Compiler::tokens[static_cast<size_t> (i)].Value != "continue") {
         return;
     }
     ++i;
 
     if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
-        Compiler::tokens[i].Value != ";") {
+        Compiler::tokens[static_cast<size_t> (i)].Value != ";") {
         return;
     }
     ++i;
