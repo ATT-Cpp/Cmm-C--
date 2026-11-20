@@ -7,11 +7,19 @@ void FunctionDeclaration::ParseFunctionDeclaration(int& i) {
         Compiler::tokens[static_cast<size_t> (i)].TokenType != Compiler::IDENTIFIER) {
         return;
     }
-
-    Arguments = ASTnode::MakeNode(ASTnode::FUNCTION_DECL, Compiler::tokens[static_cast<size_t> (i)].Value);
+    ++i;
+    FunctionName.Value = Compiler::tokens[static_cast<size_t> (i)].Value;
+    FunctionName.Type = ASTnode::STRING;
+    Arguments = ASTnode::MakeNode(ASTnode::FUNCTION_DECL, "");
+    if(!help.Universal(i, {true, true})) {
+        return;
+    }
     ++i;
     ParseArguments(i);
     ParseFunctionBody(i);
+
+    Function.Children.push_back(FunctionName);
+    Function.Children.push_back(Arguments);
 }
 
 void FunctionDeclaration::ParseFunctionBody(int& i) {

@@ -1,6 +1,7 @@
 #include "../../../Include/includes.h"
 Helper help;
 VariableDeclaration vd;
+FunctionDeclaration fd;
 void VariableDeclaration::ParseVarDecl(int &i)
 {
 
@@ -37,6 +38,12 @@ void VariableDeclaration::ParseVarDecl(int &i)
                         VariableName = ASTnode::MakeNode(ASTnode::DATA_TYPES, Compiler::tokens[static_cast<size_t> (i)].Value);
                         ++i;
                     }
+                    
+                    else if(Compiler::tokens[static_cast<size_t>(i)].Value == fd.FunctionName.Value) {
+                        VariableValue = ASTnode::MakeNode(ASTnode::DATA_TYPES, Compiler::tokens[static_cast<size_t>(i)].Value);
+                        ++i;
+                    } 
+
                 }
             }
         }

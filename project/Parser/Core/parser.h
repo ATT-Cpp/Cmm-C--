@@ -53,7 +53,8 @@ class FunctionDeclaration {
         inline void ParseFunctionBody(int& i);
         inline void ParseArguments(int& i);
         inline void ParseVariableDeclFunc(int& i);
-        
+        ASTnode::Node Function = ASTnode::MakeNode(ASTnode::FUNCTION_DECL, "");
+        ASTnode::Node FunctionName = ASTnode::MakeNode(ASTnode::FUNCTION_DECL, "");
         ASTnode::Node Arguments = ASTnode::MakeNode(ASTnode::FUNCTION_DECL, "");
         ASTnode::Node VariableDeclFunc = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
 };
