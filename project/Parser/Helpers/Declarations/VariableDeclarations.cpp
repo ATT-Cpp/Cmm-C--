@@ -1,79 +1,154 @@
 #include "../../../Include/includes.h"
+
 Helper help;
 VariableDeclaration vd;
 FunctionDeclaration fd;
+
 void VariableDeclaration::ParseVarDecl(int &i)
 {
-
-    if (help.FindKeywords(i, "var"))
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
     {
-        VariableValue = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
-        VariableName = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
-        if (help.FindKeywords(i, "auto"))
-        {
-            const std::string text = Compiler::tokens[static_cast<size_t> (i)].Value;
-            if (help.FindType(i, Compiler::IDENTIFIER))
-            {
-                VariableName = ASTnode::MakeNode(ASTnode::IDENTIFIER, text);
-            }
-            if (help.FindKeywords(i, "="))
-            {
-                ParseDataTypes(i);
-            }
-        }
-        else if (help.FindKeywords(i, "string") || help.FindKeywords(i, "int") || help.FindKeywords(i, "char") ||
-                 help.FindKeywords(i, "bool"))
-        {
-            const std::string text = Compiler::tokens[static_cast<size_t> (i)].Value;
-            if (help.FindType(i, Compiler::IDENTIFIER))
-            {
-                VariableName = ASTnode::MakeNode(ASTnode::IDENTIFIER, text);
-                if (help.FindKeywords(i, "="))
-                {
-                    ParseDataTypes(i);
-                }
-                else {
-                    if (Compiler::tokens[static_cast<size_t> (i)].Value == vd.VariableName.Value)
-                    {
-                        VariableName = ASTnode::MakeNode(ASTnode::DATA_TYPES, Compiler::tokens[static_cast<size_t> (i)].Value);
-                        ++i;
-                    }
-                    
-                    else if(Compiler::tokens[static_cast<size_t>(i)].Value == fd.FunctionName.Value) {
-                        VariableValue = ASTnode::MakeNode(ASTnode::DATA_TYPES, Compiler::tokens[static_cast<size_t>(i)].Value);
-                        ++i;
-                    } 
+        return;
+    }
 
-                }
-            }
-        }
+    if (Compiler::tokens[static_cast<size_t>(i)].Value != "var")
+    {
+        return;
+    }
+    ++i;
+
+    ParseDataType(i);
+    ParseIdentifier(i);
+
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
+    {
+        return;
+    }
+
+    if (Compiler::tokens[i].Value != "=")
+    {
+        return;
+    }
+    ++i;
+    ParseValue(i);
+
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
+    {
+        return;
+    }
+
+    if(Compiler::tokens[i].Value != ";") {
+        return;
+    }
+    ++i;
+
+}
+
+void VariableDeclaration::ParseIdentifier(int &i)
+{
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
+    {
+        return;
+    }
+
+    if (Compiler::tokens[i].TokenType == Compiler::IDENTIFIER)
+    {
+        Identifier = ASTnode::MakeNode(ASTnode::IDENTIFIER, Compiler::tokens[i].Value);
+        ++i;
     }
 }
 
-void VariableDeclaration::ParseDataTypes(int &i)
+void VariableDeclaration::ParseDataType(int &i)
 {
-    const std::string text = Compiler::tokens[static_cast<size_t> (i)].Value;
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
+    {
+        return;
+    }
 
-    if (help.FindType(i, Compiler::STRING))
+    if (Compiler::tokens[i].TokenType == Compiler::INT)
     {
-        VariableValue = ASTnode::MakeNode(ASTnode::STRING, text);
-        VariableName = ASTnode::MakeNode(ASTnode::STRING, VariableName.Value);
+        DataType = ASTnode::MakeNode(ASTnode::INT, Compiler::tokens[i].Value);
+        ++i;
     }
-    else if (help.FindType(i, Compiler::INT))
+    else if (Compiler::tokens[i].TokenType == Compiler::STRING)
     {
-        VariableValue = ASTnode::MakeNode(ASTnode::INT, text);
-        VariableName = ASTnode::MakeNode(ASTnode::INT, VariableName.Value);
+        DataType = ASTnode::MakeNode(ASTnode::STRING, Compiler::tokens[i].Value);
+        ++i;
     }
-    else if (help.FindType(i, Compiler::BOOL))
+    else if (Compiler::tokens[i].TokenType == Compiler::DOUBLE)
     {
-        VariableValue = ASTnode::MakeNode(ASTnode::BOOL, text);
-        VariableName = ASTnode::MakeNode(ASTnode::BOOL, VariableName.Value);
+        DataType = ASTnode::MakeNode(ASTnode::DOUBLE, Compiler::tokens[i].Value);
+        ++i;
     }
-    else if (help.FindType(i, Compiler::CHAR))
+    else if (Compiler::tokens[i].TokenType == Compiler::BOOL)
     {
-        VariableValue = ASTnode::MakeNode(ASTnode::CHAR, text);
-        VariableName = ASTnode::MakeNode(ASTnode::CHAR, VariableName.Value);
+        DataType = ASTnode::MakeNode(ASTnode::BOOL, Compiler::tokens[i].Value);
+        ++i;
     }
-    VariableDeclarationNode.Children.push_back(VariableValue);
-    VariableDeclarationNode.Children.push_back(VariableName);
+    else if (Compiler::tokens[i].TokenType == Compiler::CHAR)
+    {
+        DataType = ASTnode::MakeNode(ASTnode::CHAR, Compiler::tokens[i].Value);
+        ++i;
+    }
+    else if (Compiler::tokens[i].TokenType == Compiler::AUTO)
+    {
+        DataType = ASTnode::MakeNode(ASTnode::AUTO, Compiler::tokens[i].Value);
+        ++i;
+    }
+}
+
+void VariableDeclaration::ParseValue(int &i)
+{
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
+    {
+        return;
+    }
+
+    if (Compiler::tokens[i].TokenType == Compiler::INT)
+    {
+        Value = ASTnode::MakeNode(ASTnode::INT, Compiler::tokens[i].Value);
+        ++i;
+    }
+    else if (Compiler::tokens[i].TokenType == Compiler::STRING)
+    {
+        Value = ASTnode::MakeNode(ASTnode::STRING, Compiler::tokens[i].Value);
+        ++i;
+    }
+    else if (Compiler::tokens[i].TokenType == Compiler::DOUBLE)
+    {
+        Value = ASTnode::MakeNode(ASTnode::DOUBLE, Compiler::tokens[i].Value);
+        ++i;
+    }
+    else if (Compiler::tokens[i].TokenType == Compiler::BOOL)
+    {
+        Value = ASTnode::MakeNode(ASTnode::BOOL, Compiler::tokens[i].Value);
+        ++i;
+    }
+    else if (Compiler::tokens[i].TokenType == Compiler::CHAR)
+    {
+        Value = ASTnode::MakeNode(ASTnode::CHAR, Compiler::tokens[i].Value);
+        ++i;
+    }
+    else if (Compiler::tokens[i].TokenType == Compiler::AUTO)
+    {
+        Value = ASTnode::MakeNode(ASTnode::AUTO, Compiler::tokens[i].Value);
+        ++i;
+    }
+
+    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
+    {
+        return;
+    }
+
+    if (Compiler::tokens[i].Value == fd.FunctionName.Value)
+    {
+        Value = ASTnode::MakeNode(ASTnode::STRING, Compiler::tokens[i].Value);
+        ++i;
+    }
+
+    if (Compiler::tokens[i].Value == Identifier.Value)
+    {
+        Value = ASTnode::MakeNode(ASTnode::STRING, Compiler::tokens[i].Value);
+        ++i;
+    }
 }

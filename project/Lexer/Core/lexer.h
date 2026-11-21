@@ -17,6 +17,9 @@ class Compiler
         INT,
         CHAR,
         BOOL,
+        AUTO,
+        DOUBLE,
+        VOID,
     };
     struct Tokens
     {
@@ -25,10 +28,9 @@ class Compiler
     };
 
     inline static std::vector<std::string> Symbol{"<", ">", "==", "=",  "!=", ">=", "<=", "[",
-                                                  "]", "(", ")",  "||", "!",  "&&", ";", "++", "\"\"", ","};
+                                                  "]", "(", ")",  "||", "!",  "&&", ";", "++", "\"\"", ",", "."};
     inline static std::vector<std::string> Keywords{
-        "fn",   "if",   "else", "for",    "while", "match", "case", "break", "continue", "int",  "float",  "double",
-        "bool", "char", "void", "string", "const", "global", "var",  "auto",  "return",   "import", "else if"};
+        "fn",   "if",   "else", "for",    "while", "match", "case", "break", "continue", "const", "global", "var",  "auto",  "return",   "import", "else if"};
     inline static std::vector<Tokens> tokens;
 
   public:

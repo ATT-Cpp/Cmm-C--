@@ -32,10 +32,15 @@ class VariableDeclaration
 
   public:
     inline void ParseVarDecl(int &i);
-    inline void ParseDataTypes(int &i);
+    inline void ParseIdentifier(int &i);
+    inline void ParseDataType(int& i);
+    inline void ParseValue(int& i);
+    inline void FunctionAndVariableValue(int& i);
     ASTnode::Node VariableDeclarationNode = ASTnode::MakeNode(ASTnode::VARIABLE_DECL, "");
-    ASTnode::Node VariableValue = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
-    ASTnode::Node VariableName = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+    ASTnode::Node Identifier = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+    ASTnode::Node DataType = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+    ASTnode::Node Value = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+    ASTnode::Node Program = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
 };
 
 

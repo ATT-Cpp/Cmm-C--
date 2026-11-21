@@ -4,11 +4,16 @@ VariableDeclaration vd;
 IterationStatement is;
 void IterationStatement::ParseWhileStatement(int &i, int &b)
 {
-    if (Compiler::tokens[static_cast<size_t> (i)].Value == "while")
-    {
-        help.parseCondition(i);
-        help.parseBlock(i);
+    if(i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size()) {
+        return;
     }
+    
+    if (Compiler::tokens[static_cast<size_t> (i)].Value != "while")
+    {
+        return;
+    }
+    help.parseCondition(i);
+    help.parseBlock(i);
 }
 
 void IterationStatement::ParseForCondition(int &i, std::string input)
