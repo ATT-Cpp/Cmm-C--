@@ -36,25 +36,30 @@ void Struct::ParseStructDeclaration(int& i) {
         return;
     }
     st.StructBody = ASTnode::MakeNode(ASTnode::STRUCT_BODY, "");
-    while(!help.Universal(i, {false, false, true, "]"})) {
-        st.ParseStructBody(i);
+    if (!st.ParseStructBody(i)) {
+        return;
     }
     ++i;
     StructBody = st.StructBody;
     StructNode.Children.push_back(StructName);
     StructNode.Children.push_back(StructBody);
 }
-void Struct::ParseStructBody(int& i) {
-    if(!help.Universal(i, {true, true, false, ""})) {
-        return;
-    }
 
-    while(!help.Universal(i, {false, false, true, "]"})) {
+bool Struct::ParseStructBody(int& i) {
+    while (i >= 0 && static_cast<size_t>(i) < Lexer::tokens.size() &&
+           Lexer::tokens[static_cast<size_t>(i)].Value != "]") {
+        const int previousIndex = i;
+        const size_t previousChildCount = StructBody.Children.size();
         if(!help.Universal(i, {true, true, false, ""})) {
-            return;
+            return false;
         }
         st.ParseVariableDeclStruct(i);
+        if (i <= previousIndex || StructBody.Children.size() == previousChildCount) {
+            return false;
+        }
     }
+    return i >= 0 && static_cast<size_t>(i) < Lexer::tokens.size() &&
+           Lexer::tokens[static_cast<size_t>(i)].Value == "]";
 }
 void Struct::ParseVariableDeclStruct(int& i) {
     VariableDeclStruct = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
@@ -72,6 +77,7 @@ void Struct::ParseVariableDeclStruct(int& i) {
     }
     if (!help.Universal(i, {false, false, true, "auto"}) &&
         !help.Universal(i, {false, false, true, "int"}) &&
+    !help.Universal(i, {false, false, true, "double"}) &&
         !help.Universal(i, {false, false, true, "bool"}) &&
         !help.Universal(i, {false, false, true, "string"}) &&
         !help.Universal(i, {false, false, true, "char"})) {

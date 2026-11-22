@@ -86,7 +86,7 @@ class Enum {
 class Struct {
     public:
         inline void ParseStructDeclaration(int& i);
-        inline void ParseStructBody(int& i);
+        inline bool ParseStructBody(int& i);
         inline void ParseVariableDeclStruct(int& i);
         ASTnode::Node StructName = ASTnode::MakeNode(ASTnode::STRUCT_NAME, "");
         ASTnode::Node StructBody = ASTnode::MakeNode(ASTnode::STRUCT_BODY, "");
