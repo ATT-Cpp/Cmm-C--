@@ -1,56 +1,64 @@
 #include "../../../Include/includes.h"
 
 void JumpBasedStatements::ParseBreakStatement(int &i) {
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
-        Compiler::tokens[static_cast<size_t> (i)].Value != "break") {
+    BreakStatementNode = ASTnode::MakeNode(ASTnode::BREAK_STATEMENT, "");
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
+        Lexer::tokens[static_cast<size_t> (i)].Value != "break") {
         return;
     }
     ++i;
 
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
-        Compiler::tokens[static_cast<size_t> (i)].Value != ";") {
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
+        Lexer::tokens[static_cast<size_t> (i)].Value != ";") {
         return;
     }
     ++i;
+    BreakStatementNode.Value = "break";
 }
 
 void JumpBasedStatements::ParseReturnStatement(int &i) {
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
-        Compiler::tokens[static_cast<size_t> (i)].Value != "return") {
+    ReturnStatementNode = ASTnode::MakeNode(ASTnode::RETURN_STATEMENT, "");
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
+        Lexer::tokens[static_cast<size_t> (i)].Value != "return") {
         return;
     }
 
     ++i;
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size()) {
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size()) {
         return;
     }
 
-    const bool isValid = Compiler::tokens[static_cast<size_t> (i)].TokenType == Compiler::STRING ||
-                         Compiler::tokens[static_cast<size_t> (i)].TokenType == Compiler::BOOL ||
-                         Compiler::tokens[static_cast<size_t> (i)].TokenType == Compiler::CHAR ||
-                         Compiler::tokens[static_cast<size_t> (i)].TokenType == Compiler::INT;
+    const bool isValid = Lexer::tokens[static_cast<size_t> (i)].TokenType == Lexer::STRING ||
+                         Lexer::tokens[static_cast<size_t> (i)].TokenType == Lexer::BOOL ||
+                         Lexer::tokens[static_cast<size_t> (i)].TokenType == Lexer::CHAR ||
+                         Lexer::tokens[static_cast<size_t> (i)].TokenType == Lexer::INT;
     if (!isValid) {
         return;
     }
+    const std::string returnValue = Lexer::tokens[static_cast<size_t> (i)].Value;
     ++i;
 
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
-        Compiler::tokens[static_cast<size_t> (i)].Value != ";") {
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
+        Lexer::tokens[static_cast<size_t> (i)].Value != ";") {
         return;
     }
     ++i;
+    ReturnStatementNode.Value = "return";
+    ReturnStatementNode.Children.push_back(ASTnode::MakeNode(ASTnode::DATA_TYPES, returnValue));
 }
 
 void JumpBasedStatements::ParseContinueStatement(int &i) {
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
-        Compiler::tokens[static_cast<size_t> (i)].Value != "continue") {
+    ContinueStatementNode = ASTnode::MakeNode(ASTnode::CONTINUE_STATEMENT, "");
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
+        Lexer::tokens[static_cast<size_t> (i)].Value != "continue") {
         return;
     }
     ++i;
 
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size() ||
-        Compiler::tokens[static_cast<size_t> (i)].Value != ";") {
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
+        Lexer::tokens[static_cast<size_t> (i)].Value != ";") {
         return;
     }
     ++i;
+    ContinueStatementNode.Value = "continue";
 }

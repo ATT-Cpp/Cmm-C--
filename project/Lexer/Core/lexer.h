@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-class Compiler
+class Lexer
 {
   public:
     enum Token
@@ -34,11 +34,12 @@ class Compiler
     inline static std::vector<Tokens> tokens;
 
   public:
-    void Lexer(const std::string &input, size_t &i);
+    void lexer(const std::string &input, size_t &i);
     void keywords(const std::string &input, size_t &i);
     void Symbols(const std::string &input, size_t &i);
     void ParseString(const std::string &input, size_t &i);
     void ParseInt(const std::string &input, size_t &i);
+    void ParseDouble(const std::string &input, size_t &i);
     void ParseChar(const std::string &input, size_t &i);
     void ParseBool(const std::string &input, size_t &i);
 };

@@ -1,7 +1,7 @@
 #include "../../Include/includes.h"
 
-Compiler c;
-void Compiler::Lexer(const std::string &input, size_t &i)
+Lexer c;
+void Lexer::lexer(const std::string &input, size_t &i)
 {
 
     char currentSchar;
@@ -23,7 +23,12 @@ void Compiler::Lexer(const std::string &input, size_t &i)
 
         if (std::isdigit(static_cast<unsigned char>(currentSchar)))
         {
-            c.ParseInt(input, i);
+            const size_t previousIndex = i;
+            c.ParseDouble(input, i);
+            if (i == previousIndex)
+            {
+                c.ParseInt(input, i);
+            }
             continue;
         }
         if (std::isalnum(static_cast<unsigned char>(currentSchar)) || currentSchar == '_')

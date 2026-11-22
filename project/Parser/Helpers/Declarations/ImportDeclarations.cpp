@@ -2,53 +2,55 @@
 Helper help;
 
 void ImportDeclaration::ParseImportDeclaration(int& i,const std::string& input) {
+    ImportDeclarationNode = ASTnode::MakeNode(ASTnode::IMPORT, "");
     std::string currentToken;
-    if(static_cast<size_t> (i) >= Compiler::tokens.size()) {
+    if(static_cast<size_t> (i) >= Lexer::tokens.size()) {
         return;
     }
-    currentToken += Compiler::tokens[static_cast<size_t> (i)].Value;
+    currentToken += Lexer::tokens[static_cast<size_t> (i)].Value;
     
-    if(Compiler::tokens[static_cast<size_t> (i)].Value != "import") {
+    if(Lexer::tokens[static_cast<size_t> (i)].Value != "import") {
         return;
     }
     ++i;
     currentToken.clear();
-    currentToken += Compiler::tokens[static_cast<size_t> (i)].Value;
+    currentToken += Lexer::tokens[static_cast<size_t> (i)].Value;
 
-    if(static_cast<size_t> (i) >= Compiler::tokens.size()) {
+    if(static_cast<size_t> (i) >= Lexer::tokens.size()) {
         return;
     }
 
-    if(Compiler::tokens[static_cast<size_t> (i)].Value != "\"") {
+    if(Lexer::tokens[static_cast<size_t> (i)].Value != "\"") {
         return;
     }
     ++i;
     currentToken.clear();
-    currentToken += Compiler::tokens[static_cast<size_t> (i)].Value;
+    currentToken += Lexer::tokens[static_cast<size_t> (i)].Value;
 
-    if(static_cast<size_t> (i) >= Compiler::tokens.size()) {
+    if(static_cast<size_t> (i) >= Lexer::tokens.size()) {
         return;
     }
 
-    while(Compiler::tokens[static_cast<size_t> (i)].Value != "\"")
+    while(Lexer::tokens[static_cast<size_t> (i)].Value != "\"")
     {
         LibraryName = ASTnode::MakeNode(ASTnode::STRING, currentToken);
 
         ++i;
 
         currentToken.clear();
-        currentToken += Compiler::tokens[static_cast<size_t> (i)].Value;
+        currentToken += Lexer::tokens[static_cast<size_t> (i)].Value;
     }
 
-    if(static_cast<size_t> (i) >= Compiler::tokens.size()) {
+    if(static_cast<size_t> (i) >= Lexer::tokens.size()) {
         return;
     }
 
-    if(Compiler::tokens[static_cast<size_t> (i)].Value != ";") {
+    if(Lexer::tokens[static_cast<size_t> (i)].Value != ";") {
         return;
     }
+    ImportDeclarationNode.Children.push_back(LibraryName);
     ++i;
     currentToken.clear();
-    currentToken += Compiler::tokens[static_cast<size_t> (i)].Value;
+    currentToken += Lexer::tokens[static_cast<size_t> (i)].Value;
     
 }

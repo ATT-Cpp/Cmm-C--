@@ -14,7 +14,7 @@ class Helper
     };
     bool Universal(int& i, options opt);
     bool FindKeywords(int &i, std::string expected);
-    bool FindType(int &i, Compiler::Token expected);
+    bool FindType(int &i, Lexer::Token expected);
     bool find(int &i);
     void parseBlock(int &i);
     

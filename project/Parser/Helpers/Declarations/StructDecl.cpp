@@ -3,6 +3,10 @@ Helper help;
 Struct st;
 
 void Struct::ParseStructDeclaration(int& i) {
+    StructNode = ASTnode::MakeNode(ASTnode::STRUCT_DECL, "");
+    StructName = ASTnode::MakeNode(ASTnode::STRUCT_NAME, "");
+    StructBody = ASTnode::MakeNode(ASTnode::STRUCT_BODY, "");
+
     if(!help.Universal(i, {true, true, false, ""})) {
         return;
     } 
@@ -14,9 +18,10 @@ void Struct::ParseStructDeclaration(int& i) {
     if(!help.Universal(i, {true, true, false, ""})) {
         return;
     }
-    if(Compiler::tokens[static_cast<size_t> (i)].TokenType != Compiler::IDENTIFIER) {
+    if(Lexer::tokens[static_cast<size_t> (i)].TokenType != Lexer::IDENTIFIER) {
         return;
     }
+    StructName.Value = Lexer::tokens[static_cast<size_t> (i)].Value;
     ++i;
 
     if(!help.Universal(i, {true, true, false, ""})) {
@@ -30,10 +35,14 @@ void Struct::ParseStructDeclaration(int& i) {
     if(!help.Universal(i, {true, true, false, ""})) {
         return;
     }
+    st.StructBody = ASTnode::MakeNode(ASTnode::STRUCT_BODY, "");
     while(!help.Universal(i, {false, false, true, "]"})) {
         st.ParseStructBody(i);
     }
     ++i;
+    StructBody = st.StructBody;
+    StructNode.Children.push_back(StructName);
+    StructNode.Children.push_back(StructBody);
 }
 void Struct::ParseStructBody(int& i) {
     if(!help.Universal(i, {true, true, false, ""})) {
@@ -48,6 +57,8 @@ void Struct::ParseStructBody(int& i) {
     }
 }
 void Struct::ParseVariableDeclStruct(int& i) {
+    VariableDeclStruct = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+
     if (!help.Universal(i, {true, true, false, ""})) {
         return;
     }
@@ -72,10 +83,10 @@ void Struct::ParseVariableDeclStruct(int& i) {
     if (!help.Universal(i, {true, true, false, ""})) {
         return;
     }
-    if(Compiler::tokens[static_cast<size_t> (i)].TokenType != Compiler::IDENTIFIER) {
+    if(Lexer::tokens[static_cast<size_t> (i)].TokenType != Lexer::IDENTIFIER) {
         return;
     }
-    VariableDeclStruct.Value = Compiler::tokens[static_cast<size_t> (i)].Value;
+    VariableDeclStruct.Value = Lexer::tokens[static_cast<size_t> (i)].Value;
     ++i;
     //end
     if (!help.Universal(i, {true, true, false, ""})) {
@@ -86,5 +97,6 @@ void Struct::ParseVariableDeclStruct(int& i) {
         return;
     }
     ++i;
+    StructBody.Children.push_back(VariableDeclStruct);
     //END
 }

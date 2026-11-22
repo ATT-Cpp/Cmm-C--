@@ -6,149 +6,167 @@ FunctionDeclaration fd;
 
 void VariableDeclaration::ParseVarDecl(int &i)
 {
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size())
     {
         return;
     }
 
-    if (Compiler::tokens[static_cast<size_t>(i)].Value != "var")
+    if (Lexer::tokens[static_cast<size_t>(i)].Value != "var")
     {
         return;
     }
     ++i;
 
     ParseDataType(i);
+    if (VariableDeclarationNode.Children.empty())
+    {
+        std::cerr << "Parse error: expected a variable type after 'var'.\n";
+        return;
+    }
+
     ParseIdentifier(i);
-
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
+    if (VariableDeclarationNode.Children.size() != 2)
     {
+        std::cerr << "Parse error: expected a variable name.\n";
         return;
     }
 
-    if (Compiler::tokens[i].Value != "=")
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
+        Lexer::tokens[i].Value != "=")
     {
+        std::cerr << "Parse error: expected '=' after the variable name.\n";
         return;
     }
+
     ++i;
     ParseValue(i);
-
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
+    if (VariableDeclarationNode.Children.size() != 3)
     {
+        std::cerr << "Parse error: expected a variable value after '='.\n";
         return;
     }
 
-    if(Compiler::tokens[i].Value != ";") {
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
+        Lexer::tokens[i].Value != ";")
+    {
+        VariableDeclarationNode.Children.clear();
+        std::cerr << "Parse error: expected ';' after the variable declaration.\n";
         return;
     }
+
     ++i;
-
 }
 
 void VariableDeclaration::ParseIdentifier(int &i)
 {
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size())
     {
         return;
     }
 
-    if (Compiler::tokens[i].TokenType == Compiler::IDENTIFIER)
+    if (Lexer::tokens[i].TokenType != Lexer::IDENTIFIER)
     {
-        Identifier = ASTnode::MakeNode(ASTnode::IDENTIFIER, Compiler::tokens[i].Value);
-        ++i;
+        return;
     }
+
+    Identifier = ASTnode::MakeNode(ASTnode::IDENTIFIER, Lexer::tokens[i].Value);
+    ++i;
+    VariableDeclarationNode.Children.push_back(Identifier);
 }
 
 void VariableDeclaration::ParseDataType(int &i)
 {
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size())
     {
         return;
     }
 
-    if (Compiler::tokens[i].TokenType == Compiler::INT)
+    if (Lexer::tokens[i].TokenType == Lexer::INT)
     {
-        DataType = ASTnode::MakeNode(ASTnode::INT, Compiler::tokens[i].Value);
+        DataType = ASTnode::MakeNode(ASTnode::TYPE, "INT");
         ++i;
     }
-    else if (Compiler::tokens[i].TokenType == Compiler::STRING)
+    else if (Lexer::tokens[i].TokenType == Lexer::STRING)
     {
-        DataType = ASTnode::MakeNode(ASTnode::STRING, Compiler::tokens[i].Value);
+        DataType = ASTnode::MakeNode(ASTnode::TYPE, "STRING");
         ++i;
     }
-    else if (Compiler::tokens[i].TokenType == Compiler::DOUBLE)
+    else if (Lexer::tokens[i].TokenType == Lexer::DOUBLE)
     {
-        DataType = ASTnode::MakeNode(ASTnode::DOUBLE, Compiler::tokens[i].Value);
+        DataType = ASTnode::MakeNode(ASTnode::TYPE, "DOUBLE");
         ++i;
     }
-    else if (Compiler::tokens[i].TokenType == Compiler::BOOL)
+    else if (Lexer::tokens[i].TokenType == Lexer::BOOL)
     {
-        DataType = ASTnode::MakeNode(ASTnode::BOOL, Compiler::tokens[i].Value);
+        DataType = ASTnode::MakeNode(ASTnode::TYPE, "BOOL");
         ++i;
     }
-    else if (Compiler::tokens[i].TokenType == Compiler::CHAR)
+    else if (Lexer::tokens[i].TokenType == Lexer::CHAR)
     {
-        DataType = ASTnode::MakeNode(ASTnode::CHAR, Compiler::tokens[i].Value);
+        DataType = ASTnode::MakeNode(ASTnode::TYPE, "CHAR");
         ++i;
     }
-    else if (Compiler::tokens[i].TokenType == Compiler::AUTO)
+    else if (Lexer::tokens[i].TokenType == Lexer::AUTO)
     {
-        DataType = ASTnode::MakeNode(ASTnode::AUTO, Compiler::tokens[i].Value);
+        DataType = ASTnode::MakeNode(ASTnode::TYPE, "AUTO");
         ++i;
     }
+    else {
+        return;
+    }
+
+    VariableDeclarationNode.Children.push_back(DataType);
 }
 
 void VariableDeclaration::ParseValue(int &i)
 {
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size())
     {
         return;
     }
 
-    if (Compiler::tokens[i].TokenType == Compiler::INT)
+    if (Lexer::tokens[i].TokenType == Lexer::INT)
     {
-        Value = ASTnode::MakeNode(ASTnode::INT, Compiler::tokens[i].Value);
+        Value = ASTnode::MakeNode(ASTnode::INT, Lexer::tokens[i].Value);
         ++i;
     }
-    else if (Compiler::tokens[i].TokenType == Compiler::STRING)
+    else if (Lexer::tokens[i].TokenType == Lexer::STRING)
     {
-        Value = ASTnode::MakeNode(ASTnode::STRING, Compiler::tokens[i].Value);
+        Value = ASTnode::MakeNode(ASTnode::STRING, Lexer::tokens[i].Value);
         ++i;
     }
-    else if (Compiler::tokens[i].TokenType == Compiler::DOUBLE)
+    else if (Lexer::tokens[i].TokenType == Lexer::DOUBLE)
     {
-        Value = ASTnode::MakeNode(ASTnode::DOUBLE, Compiler::tokens[i].Value);
+        Value = ASTnode::MakeNode(ASTnode::DOUBLE, Lexer::tokens[i].Value);
         ++i;
     }
-    else if (Compiler::tokens[i].TokenType == Compiler::BOOL)
+    else if (Lexer::tokens[i].TokenType == Lexer::BOOL)
     {
-        Value = ASTnode::MakeNode(ASTnode::BOOL, Compiler::tokens[i].Value);
+        Value = ASTnode::MakeNode(ASTnode::BOOL, Lexer::tokens[i].Value);
         ++i;
     }
-    else if (Compiler::tokens[i].TokenType == Compiler::CHAR)
+    else if (Lexer::tokens[i].TokenType == Lexer::CHAR)
     {
-        Value = ASTnode::MakeNode(ASTnode::CHAR, Compiler::tokens[i].Value);
+        Value = ASTnode::MakeNode(ASTnode::CHAR, Lexer::tokens[i].Value);
         ++i;
     }
-    else if (Compiler::tokens[i].TokenType == Compiler::AUTO)
+    else if (Lexer::tokens[i].TokenType == Lexer::AUTO)
     {
-        Value = ASTnode::MakeNode(ASTnode::AUTO, Compiler::tokens[i].Value);
+        Value = ASTnode::MakeNode(ASTnode::AUTO, Lexer::tokens[i].Value);
         ++i;
     }
-
-    if (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())
+    else if (Lexer::tokens[i].TokenType == Lexer::IDENTIFIER)
+    {
+        Value = ASTnode::MakeNode(
+            ASTnode::IDENTIFIER,
+            Lexer::tokens[i].Value
+        );
+        ++i;
+    }
+    else
     {
         return;
     }
 
-    if (Compiler::tokens[i].Value == fd.FunctionName.Value)
-    {
-        Value = ASTnode::MakeNode(ASTnode::STRING, Compiler::tokens[i].Value);
-        ++i;
-    }
-
-    if (Compiler::tokens[i].Value == Identifier.Value)
-    {
-        Value = ASTnode::MakeNode(ASTnode::STRING, Compiler::tokens[i].Value);
-        ++i;
-    }
+    VariableDeclarationNode.Children.push_back(Value);
 }

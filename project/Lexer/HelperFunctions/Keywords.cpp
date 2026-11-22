@@ -1,6 +1,6 @@
 #include "../../Include/includes.h"
 
-void Compiler::keywords(const std::string &input, size_t &i)
+void Lexer::keywords(const std::string &input, size_t &i)
 {
     if (i >= input.size())
     {
@@ -16,42 +16,45 @@ void Compiler::keywords(const std::string &input, size_t &i)
 
     if (!currentWord.empty())
     {
-        if (std::find(Compiler::datatype.begin(), Compiler::datatype.end(), currentWord) != Compiler::datatype.end())
+        if (currentWord == "int")
         {
-            Compiler::Token tokenType;
-            if (currentWord == "int")
-            {
-                tokenType = Compiler::INT;
-            }
-            else if (currentWord == "double")
-            {
-                tokenType = Compiler::DOUBLE;
-            }
-            else if (currentWord == "bool")
-            {
-                tokenType = Compiler::BOOL;
-            }
-            else if (currentWord == "char")
-            {
-                tokenType = Compiler::CHAR;
-            }
-            else if (currentWord == "void")
-            {
-                tokenType = Compiler::VOID;
-            }
-            else
-            {
-                tokenType = Compiler::STRING;
-            }
-            Compiler::tokens.push_back({tokenType, currentWord});
+            Lexer::tokens.push_back({Lexer::INT, currentWord});
+        }
+        else if (currentWord == "double")
+        {
+            Lexer::tokens.push_back({Lexer::DOUBLE, currentWord});
+        }
+        else if (currentWord == "bool")
+        {
+            Lexer::tokens.push_back({Lexer::BOOL, currentWord});
+        }
+        else if (currentWord == "char")
+        {
+            Lexer::tokens.push_back({Lexer::CHAR, currentWord});
+        }
+        else if (currentWord == "void")
+        {
+            Lexer::tokens.push_back({Lexer::VOID, currentWord});
+        }
+        else if (currentWord == "string")
+        {
+            Lexer::tokens.push_back({Lexer::STRING, currentWord});
+        }
+        else if (currentWord == "auto")
+        {
+            Lexer::tokens.push_back({Lexer::AUTO, currentWord});
+        }
+        else if (currentWord == "true" || currentWord == "false")
+        {
+            Lexer::tokens.push_back({Lexer::BOOL, currentWord});
         }
         else if (std::find(Keywords.begin(), Keywords.end(), currentWord) != Keywords.end())
         {
-            Compiler::tokens.push_back({KEYWORD, currentWord});
+            Lexer::tokens.push_back({KEYWORD, currentWord});
         }
         else
         {
-            Compiler::tokens.push_back({Compiler::IDENTIFIER, currentWord});
+            Lexer::tokens.push_back({Lexer::IDENTIFIER, currentWord});
         }
     }
 }

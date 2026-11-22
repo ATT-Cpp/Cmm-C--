@@ -4,13 +4,13 @@
 #include <string>
 #include <vector>
 Helper help {};
-bool Helper::FindType(int &i, Compiler::Token type)
+bool Helper::FindType(int &i, Lexer::Token type)
 {
     if (!Universal(i, {true, true})) {
         return false;
     }
 
-    if (Compiler::tokens[static_cast<size_t> (i)].TokenType != type)
+    if (Lexer::tokens[static_cast<size_t> (i)].TokenType != type)
     {
         return false;
     }
@@ -33,12 +33,12 @@ bool Helper::Universal(int& i, options opt) {
     }
 
     if ((opt.inrange_i_tokens || opt.Value_) &&
-        (i < 0 || static_cast<size_t>(i) >= Compiler::tokens.size())) {
+        (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size())) {
         return false;
     }
 
     if (opt.Value_) {
-        if (Compiler::tokens[static_cast<size_t> (i)].Value != opt.Value) {
+        if (Lexer::tokens[static_cast<size_t> (i)].Value != opt.Value) {
             return false;
         }
     }
@@ -65,16 +65,16 @@ ASTnode::Node Helper::parseCondition(int &i)
             if (!Universal(i, {true, true})) {
                 return ConditionNode;
             }
-            const std::string& tokenValue = Compiler::tokens[static_cast<size_t> (i)].Value;
-            if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
-                FindType(i, Compiler::IDENTIFIER))
+            const std::string& tokenValue = Lexer::tokens[static_cast<size_t> (i)].Value;
+            if (FindType(i, Lexer::INT) || FindType(i, Lexer::STRING) || FindType(i, Lexer::BOOL) ||
+                FindType(i, Lexer::IDENTIFIER))
             { 
                 Left = ASTnode::MakeNode(ASTnode::DATA_TYPES, tokenValue);
             }
             if (!Universal(i, {true, true})) {
                 return ConditionNode;
             }
-            const std::string& operatorValue = Compiler::tokens[static_cast<size_t> (i)].Value;
+            const std::string& operatorValue = Lexer::tokens[static_cast<size_t> (i)].Value;
             if (FindKeywords(i, ">") || FindKeywords(i, "<") || FindKeywords(i, ">=") || FindKeywords(i, "<=") ||
                 FindKeywords(i, "==") || FindKeywords(i, "!=")) //test
             {
@@ -83,9 +83,9 @@ ASTnode::Node Helper::parseCondition(int &i)
             if (!Universal(i, {true, true})) {
                 return ConditionNode;
             }
-            const std::string& rightValue = Compiler::tokens[static_cast<size_t> (i)].Value;
-            if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
-                FindType(i, Compiler::IDENTIFIER))
+            const std::string& rightValue = Lexer::tokens[static_cast<size_t> (i)].Value;
+            if (FindType(i, Lexer::INT) || FindType(i, Lexer::STRING) || FindType(i, Lexer::BOOL) ||
+                FindType(i, Lexer::IDENTIFIER))
             {
                 Right = ASTnode::MakeNode(ASTnode::DATA_TYPES, rightValue);
             }
@@ -95,7 +95,7 @@ ASTnode::Node Helper::parseCondition(int &i)
             if (Universal(i, {true, true, true, "&&"}) ||
                 Universal(i, {true, true, true, "||"}))
             {
-                LogicGates = ASTnode::MakeNode(ASTnode::ANDOR, Compiler::tokens[static_cast<size_t> (i)].Value);
+                LogicGates = ASTnode::MakeNode(ASTnode::ANDOR, Lexer::tokens[static_cast<size_t> (i)].Value);
             }
             while (Universal(i, {true, true}) &&
                    (Universal(i, {true, true, true, "&&"}) ||
@@ -105,16 +105,16 @@ ASTnode::Node Helper::parseCondition(int &i)
                 if (!Universal(i, {true, true})) {
                     return ConditionNode;
                 }
-                const std::string& tokenValue = Compiler::tokens[static_cast<size_t> (i)].Value;
-                if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
-                    FindType(i, Compiler::IDENTIFIER))
+                const std::string& tokenValue = Lexer::tokens[static_cast<size_t> (i)].Value;
+                if (FindType(i, Lexer::INT) || FindType(i, Lexer::STRING) || FindType(i, Lexer::BOOL) ||
+                    FindType(i, Lexer::IDENTIFIER))
                 {
                     Left = ASTnode::MakeNode(ASTnode::DATA_TYPES, tokenValue);
                 }
                 if (!Universal(i, {true, true})) {
                     return ConditionNode;
                 }
-                const std::string& operatorValue = Compiler::tokens[static_cast<size_t> (i)].Value;
+                const std::string& operatorValue = Lexer::tokens[static_cast<size_t> (i)].Value;
                 if (FindKeywords(i, ">") || FindKeywords(i, "<") || FindKeywords(i, ">=") || FindKeywords(i, "<=") ||
                     FindKeywords(i, "==") || FindKeywords(i, "!="))
                 {
@@ -123,9 +123,9 @@ ASTnode::Node Helper::parseCondition(int &i)
                 if (!Universal(i, {true, true})) {
                     return ConditionNode;
                 }
-                const std::string& rightValue = Compiler::tokens[static_cast<size_t> (i)].Value;
-                if (FindType(i, Compiler::INT) || FindType(i, Compiler::STRING) || FindType(i, Compiler::BOOL) ||
-                    FindType(i, Compiler::IDENTIFIER))
+                const std::string& rightValue = Lexer::tokens[static_cast<size_t> (i)].Value;
+                if (FindType(i, Lexer::INT) || FindType(i, Lexer::STRING) || FindType(i, Lexer::BOOL) ||
+                    FindType(i, Lexer::IDENTIFIER))
                 {
                     Right = ASTnode::MakeNode(ASTnode::DATA_TYPES, rightValue);
                 }

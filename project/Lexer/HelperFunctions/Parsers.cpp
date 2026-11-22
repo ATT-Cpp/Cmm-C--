@@ -1,6 +1,6 @@
 #include "../../Include/includes.h"
 
-void Compiler::ParseString(const std::string &input, size_t &i)
+void Lexer::ParseString(const std::string &input, size_t &i)
 {
     if (i >= input.size() || input[i] != '"')
     {
@@ -17,12 +17,12 @@ void Compiler::ParseString(const std::string &input, size_t &i)
 
     if (i < input.size())
     {
-        Compiler::tokens.push_back({Compiler::STRING, input.substr(start, i - start)});
+        Lexer::tokens.push_back({Lexer::STRING, input.substr(start, i - start)});
         ++i;
     }
 }
 
-void Compiler::ParseInt(const std::string &input, size_t &i)
+void Lexer::ParseInt(const std::string &input, size_t &i)
 {
     if (i >= input.size() || !std::isdigit(static_cast<unsigned char>(input[i])))
     {
@@ -36,10 +36,40 @@ void Compiler::ParseInt(const std::string &input, size_t &i)
         ++i;
     }
 
-    Compiler::tokens.push_back({Compiler::INT, input.substr(start, i - start)});
+    Lexer::tokens.push_back({Lexer::INT, input.substr(start, i - start)});
 }
 
-void Compiler::ParseChar(const std::string &input, size_t &i)
+void Lexer::ParseDouble(const std::string &input, size_t &i)
+{
+    if (i >= input.size() || !std::isdigit(static_cast<unsigned char>(input[i])))
+    {
+        return;
+    }
+
+    size_t end = i;
+    while (end < input.size() && std::isdigit(static_cast<unsigned char>(input[end])))
+    {
+        ++end;
+    }
+
+    if (end >= input.size() || input[end] != '.' ||
+        end + 1 >= input.size() ||
+        !std::isdigit(static_cast<unsigned char>(input[end + 1])))
+    {
+        return;
+    }
+
+    ++end;
+    while (end < input.size() && std::isdigit(static_cast<unsigned char>(input[end])))
+    {
+        ++end;
+    }
+
+    Lexer::tokens.push_back({Lexer::DOUBLE, input.substr(i, end - i)});
+    i = end;
+}
+
+void Lexer::ParseChar(const std::string &input, size_t &i)
 {
     if (i >= input.size() || input[i] != '\'')
     {
@@ -58,12 +88,12 @@ void Compiler::ParseChar(const std::string &input, size_t &i)
 
     if (i < input.size() && input[i] == '\'')
     {
-        Compiler::tokens.push_back({Compiler::CHAR, std::string(1, ch)});
+        Lexer::tokens.push_back({Lexer::CHAR, std::string(1, ch)});
         ++i;
     }
 }
 
-void Compiler::ParseBool(const std::string &input, size_t &i)
+void Lexer::ParseBool(const std::string &input, size_t &i)
 {
     if (i >= input.size())
     {
@@ -80,6 +110,6 @@ void Compiler::ParseBool(const std::string &input, size_t &i)
     const std::string currentWord = input.substr(start, i - start);
     if (currentWord == "true" || currentWord == "false")
     {
-        Compiler::tokens.push_back({Compiler::BOOL, currentWord});
+        Lexer::tokens.push_back({Lexer::BOOL, currentWord});
     }
 }
