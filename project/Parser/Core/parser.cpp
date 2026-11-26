@@ -71,7 +71,10 @@ void Parser::parser(int& i) {
         {
             ++i;
             declaration.ParseIfStatement(i);
-            declaration.ControlFlowStatementNode.Value = "else if";
+            if (!declaration.ControlFlowStatementNode.Value.empty())
+            {
+                declaration.ControlFlowStatementNode.Value = "else if";
+            }
         }
         else
         {

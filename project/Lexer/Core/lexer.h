@@ -27,7 +27,7 @@ class Lexer
         std::string Value;
     };
 
-    inline static std::vector<std::string> Symbol{"<", ">", "==", "=",  "!=", ">=", "<=", "[",
+    inline static std::vector<std::string> Symbol{"->", "<", ">", "==", "=",  "!=", ">=", "<=", "[",
                                                   "]", "(", ")",  "||", "!",  "&&", ";", "++", "\"\"", ",", "."};
     inline static std::vector<std::string> Keywords{
         "fn",   "if",   "else", "for",    "while", "match", "case", "break", "continue", "const", "global", "var",  "auto",  "return",   "import", "else if"};

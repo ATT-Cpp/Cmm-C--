@@ -16,7 +16,7 @@ class Helper
     bool FindKeywords(int &i, std::string expected);
     bool FindType(int &i, Lexer::Token expected);
     bool find(int &i);
-    void parseBlock(int &i);
+    ASTnode::Node parseBlock(int &i);
     
     ASTnode::Node parseCondition(int &i);
     ASTnode::Node ConditionNode = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");

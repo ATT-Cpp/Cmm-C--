@@ -1,5 +1,6 @@
 #include "helper.h"
 #include "../Lexer/Core/lexer.h"
+#include "../Parser/Core/parser.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -47,6 +48,12 @@ bool Helper::Universal(int& i, options opt) {
 }
 ASTnode::Node Helper::parseCondition(int &i)
 {
+    ConditionNode = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+    Left = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+    Operator = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+    Right = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+    LogicGates = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");
+
     if (!Universal(i, {true, true})) {
         return ConditionNode;
     }
@@ -58,6 +65,7 @@ ASTnode::Node Helper::parseCondition(int &i)
         while (Universal(i, {true, true}) &&
                !Universal(i, {true, true, true, terminator}))
         {
+            const int previousIndex = i;
             if (hasParentheses)
             {
                 ++i;
@@ -133,8 +141,22 @@ ASTnode::Node Helper::parseCondition(int &i)
                     return ConditionNode;
                 }
             }
+            if (i <= previousIndex && Universal(i, {true, true})) {
+                ++i;
+            }
         }
     }
+
+    if (Left.Value.empty() || Operator.Value.empty() || Right.Value.empty()) {
+        return ConditionNode;
+    }
+    if (hasParentheses) {
+        if (!Universal(i, {true, true, true, ")"})) {
+            return ConditionNode;
+        }
+        ++i;
+    }
+
     ConditionNode.Children.push_back(Left);
     ConditionNode.Children.push_back(Operator);
     ConditionNode.Children.push_back(Right);
@@ -142,34 +164,27 @@ ASTnode::Node Helper::parseCondition(int &i)
     return ConditionNode;
 }
 
-void Helper::parseBlock(int &i)
+ASTnode::Node Helper::parseBlock(int &i)
 {
-    if (!Universal(i, {true, true})) {
-        return;
+    ASTnode::Node block = ASTnode::MakeNode(ASTnode::FUNCTION_BODY, "");
+    if (!Universal(i, {true, true, true, "["})) {
+        return block;
     }
 
-    if (Universal(i, {true, true, true, "["}))
+    ++i;
+    Parser parser;
+    while (Universal(i, {true, true}))
     {
-
-        while (Universal(i, {true, true}) &&
-               !Universal(i, {true, true, true, "]"}))
-        {
-
+        if (Universal(i, {true, true, true, "]"})) {
             ++i;
-            if (!Universal(i, {true, true})) {
-                return;
-            }
-            if (Universal(i, {true, true, true, "if"}))
-            {
-                help.parseCondition(i);
-            }
-            if (!Universal(i, {true, true})) {
-                return;
-            }
-            if (Universal(i, {true, true, true, "while"})) {
-            
-                help.parseCondition(i);
-            }
+            block.Children = parser.Program.Children;
+            return block;
+        }
+        const int previousIndex = i;
+        parser.parser(i);
+        if (i <= previousIndex) {
+            ++i;
         }
     }
+    return block;
 }

@@ -48,6 +48,7 @@ void Enum::ParseEnumDeclaration(int& i) {
         }
     }
     if(i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size()) {
+        EnumNode.Children.clear();
         return;
     }
     ++i;

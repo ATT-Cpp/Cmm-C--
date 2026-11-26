@@ -13,9 +13,20 @@ void IterationStatement::ParseWhileStatement(int &i, int &b)
     {
         return;
     }
+    ++i;
+    if (!help.Universal(i, {true, true, true, "("}))
+    {
+        return;
+    }
+    ASTnode::Node condition = help.parseCondition(i);
+    if (condition.Children.size() != 4 ||
+        !help.Universal(i, {true, true, true, "["}))
+    {
+        return;
+    }
+    WhileStatementNode.Children.push_back(condition);
+    WhileStatementNode.Children.push_back(help.parseBlock(i));
     WhileStatementNode.Value = "while";
-    WhileStatementNode.Children.push_back(help.parseCondition(i));
-    help.parseBlock(i);
 }
 
 void IterationStatement::ParseForCondition(int &i, std::string input)
@@ -31,7 +42,6 @@ void IterationStatement::ParseForCondition(int &i, std::string input)
     if (!help.FindKeywords(i, "for")) {
         return;
     }
-    ForStatementNode.Value = "for";
     if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size()) {
         return;
     }
@@ -43,34 +53,46 @@ void IterationStatement::ParseForCondition(int &i, std::string input)
         return;
     }
 
-    vd.ParseVarDecl(i);
-    ForStatementNode.Children.push_back(vd.VariableDeclarationNode);
+    VariableDeclaration declaration;
+    declaration.ParseVarDecl(i);
+    if (declaration.VariableDeclarationNode.Children.size() != 3) {
+        return;
+    }
+    ForStatementNode.Children.push_back(declaration.VariableDeclarationNode);
+
+    ASTnode::Node condition = help.parseCondition(i);
+    if (condition.Children.size() != 4) {
+        return;
+    }
+    ForStatementNode.Children.push_back(condition);
 
     if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
         !help.FindKeywords(i, ";")) {
         return;
     }
 
-    ForStatementNode.Children.push_back(help.parseCondition(i));
-
     if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
-        !help.FindKeywords(i, ";")) {
+        Lexer::tokens[static_cast<size_t>(i)].TokenType != Lexer::IDENTIFIER) {
         return;
     }
-
-    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
-        !help.FindKeywords(i, "++")) {
-        return;
-    }
+    increment.Children.push_back(
+        ASTnode::MakeNode(ASTnode::IDENTIFIER, Lexer::tokens[static_cast<size_t>(i)].Value));
+    ++i;
     if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size()) {
         return;
     }
-    increment.Children.push_back(ASTnode::MakeNode(ASTnode::IDENTIFIER, Lexer::tokens[static_cast<size_t> (i)].Value));
+    if (!help.FindKeywords(i, "++")) {
+        return;
+    }
     ForStatementNode.Children.push_back(increment);
-    ++i;
 
     if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
         !help.FindKeywords(i, ")")) {
         return;
     }
+    if (!help.Universal(i, {true, true, true, "["})) {
+        return;
+    }
+    ForStatementNode.Children.push_back(help.parseBlock(i));
+    ForStatementNode.Value = "for";
 }

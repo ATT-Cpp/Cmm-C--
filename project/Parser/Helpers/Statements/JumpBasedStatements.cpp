@@ -31,7 +31,14 @@ void JumpBasedStatements::ParseReturnStatement(int &i) {
     const bool isValid = Lexer::tokens[static_cast<size_t> (i)].TokenType == Lexer::STRING ||
                          Lexer::tokens[static_cast<size_t> (i)].TokenType == Lexer::BOOL ||
                          Lexer::tokens[static_cast<size_t> (i)].TokenType == Lexer::CHAR ||
-                         Lexer::tokens[static_cast<size_t> (i)].TokenType == Lexer::INT;
+                         Lexer::tokens[static_cast<size_t> (i)].TokenType == Lexer::INT ||
+                         Lexer::tokens[static_cast<size_t> (i)].TokenType == Lexer::DOUBLE ||
+                         Lexer::tokens[static_cast<size_t> (i)].TokenType == Lexer::IDENTIFIER;
+    if (Lexer::tokens[static_cast<size_t> (i)].Value == ";") {
+        ++i;
+        ReturnStatementNode.Value = "return";
+        return;
+    }
     if (!isValid) {
         return;
     }

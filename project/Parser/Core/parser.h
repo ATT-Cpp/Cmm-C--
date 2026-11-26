@@ -66,11 +66,12 @@ class ImportDeclaration {
 class FunctionDeclaration {
     public:
         inline void ParseFunctionDeclaration(int& i);
-        inline void ParseFunctionBody(int& i);
-        inline void ParseArguments(int& i);
+        inline bool ParseFunctionBody(int& i);
+        inline bool ParseArguments(int& i);
         inline void ParseVariableDeclFunc(int& i);
         ASTnode::Node FunctionDeclarationNode = ASTnode::MakeNode(ASTnode::FUNCTION_DECL, "");
         ASTnode::Node FunctionName = ASTnode::MakeNode(ASTnode::FUNCTION_NAME, "");
+        ASTnode::Node ReturnType = ASTnode::MakeNode(ASTnode::TYPE, "");
         ASTnode::Node Arguments = ASTnode::MakeNode(ASTnode::FUNCTION_ARGS, "");
         ASTnode::Node FunctionBody = ASTnode::MakeNode(ASTnode::FUNCTION_BODY, "");
         ASTnode::Node VariableDeclFunc = ASTnode::MakeNode(ASTnode::DATA_TYPES, "");

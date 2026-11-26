@@ -2,55 +2,25 @@
 Helper help;
 
 void ImportDeclaration::ParseImportDeclaration(int& i,const std::string& input) {
+    (void)input;
     ImportDeclarationNode = ASTnode::MakeNode(ASTnode::IMPORT, "");
-    std::string currentToken;
-    if(static_cast<size_t> (i) >= Lexer::tokens.size()) {
-        return;
-    }
-    currentToken += Lexer::tokens[static_cast<size_t> (i)].Value;
-    
-    if(Lexer::tokens[static_cast<size_t> (i)].Value != "import") {
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
+        Lexer::tokens[static_cast<size_t>(i)].Value != "import") {
         return;
     }
     ++i;
-    currentToken.clear();
-    currentToken += Lexer::tokens[static_cast<size_t> (i)].Value;
-
-    if(static_cast<size_t> (i) >= Lexer::tokens.size()) {
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
+        Lexer::tokens[static_cast<size_t>(i)].TokenType != Lexer::STRING) {
         return;
     }
 
-    if(Lexer::tokens[static_cast<size_t> (i)].Value != "\"") {
-        return;
-    }
+    LibraryName = ASTnode::MakeNode(
+        ASTnode::STRING, Lexer::tokens[static_cast<size_t>(i)].Value);
     ++i;
-    currentToken.clear();
-    currentToken += Lexer::tokens[static_cast<size_t> (i)].Value;
-
-    if(static_cast<size_t> (i) >= Lexer::tokens.size()) {
-        return;
-    }
-
-    while(Lexer::tokens[static_cast<size_t> (i)].Value != "\"")
-    {
-        LibraryName = ASTnode::MakeNode(ASTnode::STRING, currentToken);
-
-        ++i;
-
-        currentToken.clear();
-        currentToken += Lexer::tokens[static_cast<size_t> (i)].Value;
-    }
-
-    if(static_cast<size_t> (i) >= Lexer::tokens.size()) {
-        return;
-    }
-
-    if(Lexer::tokens[static_cast<size_t> (i)].Value != ";") {
+    if (i < 0 || static_cast<size_t>(i) >= Lexer::tokens.size() ||
+        Lexer::tokens[static_cast<size_t>(i)].Value != ";") {
         return;
     }
     ImportDeclarationNode.Children.push_back(LibraryName);
     ++i;
-    currentToken.clear();
-    currentToken += Lexer::tokens[static_cast<size_t> (i)].Value;
-    
 }

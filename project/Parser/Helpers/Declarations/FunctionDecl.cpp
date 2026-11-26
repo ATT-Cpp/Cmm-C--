@@ -2,6 +2,12 @@
 
 Helper help;
 void FunctionDeclaration::ParseFunctionDeclaration(int& i) {
+    FunctionDeclarationNode = ASTnode::MakeNode(ASTnode::FUNCTION_DECL, "");
+    FunctionName = ASTnode::MakeNode(ASTnode::FUNCTION_NAME, "");
+    ReturnType = ASTnode::MakeNode(ASTnode::TYPE, "");
+    Arguments = ASTnode::MakeNode(ASTnode::FUNCTION_ARGS, "");
+    FunctionBody = ASTnode::MakeNode(ASTnode::FUNCTION_BODY, "");
+
     if (!help.FindKeywords(i, "fn") ||
         !help.Universal(i, {true, true}) ||
         Lexer::tokens[static_cast<size_t> (i)].TokenType != Lexer::IDENTIFIER) {
@@ -9,23 +15,54 @@ void FunctionDeclaration::ParseFunctionDeclaration(int& i) {
     }
     FunctionName = ASTnode::MakeNode(
         ASTnode::FUNCTION_NAME, Lexer::tokens[static_cast<size_t> (i)].Value);
-    Arguments = ASTnode::MakeNode(ASTnode::FUNCTION_ARGS, "");
-    FunctionBody = ASTnode::MakeNode(ASTnode::FUNCTION_BODY, "");
     ++i;
-    if(!help.Universal(i, {true, true})) {
+    if (!ParseArguments(i)) {
         return;
     }
-    ParseArguments(i);
+
+    if (help.FindKeywords(i, "->")) {
+        if (!help.Universal(i, {true, true})) {
+            return;
+        }
+
+        const std::string& typeValue = Lexer::tokens[static_cast<size_t>(i)].Value;
+        std::string typeName;
+        if (typeValue == "int") {
+            typeName = "INT";
+        } else if (typeValue == "double") {
+            typeName = "DOUBLE";
+        } else if (typeValue == "bool") {
+            typeName = "BOOL";
+        } else if (typeValue == "char") {
+            typeName = "CHAR";
+        } else if (typeValue == "string") {
+            typeName = "STRING";
+        } else if (typeValue == "void") {
+            typeName = "VOID";
+        } else if (typeValue == "auto") {
+            typeName = "AUTO";
+        } else {
+            return;
+        }
+        ReturnType = ASTnode::MakeNode(ASTnode::TYPE, typeName);
+        ++i;
+    }
+
+    if (!ParseFunctionBody(i)) {
+        return;
+    }
 
     FunctionDeclarationNode.Children.push_back(FunctionName);
+    if (!ReturnType.Value.empty()) {
+        FunctionDeclarationNode.Children.push_back(ReturnType);
+    }
     FunctionDeclarationNode.Children.push_back(Arguments);
-    ParseFunctionBody(i);
     FunctionDeclarationNode.Children.push_back(FunctionBody);
 }
 
-void FunctionDeclaration::ParseFunctionBody(int& i) {
+bool FunctionDeclaration::ParseFunctionBody(int& i) {
     if (!help.Universal(i, {true, true, true, "["})) {
-        return;
+        return false;
     }
 
     ++i;
@@ -44,9 +81,15 @@ void FunctionDeclaration::ParseFunctionBody(int& i) {
         if (currentValue == "var") {
             VariableDeclaration variableDeclaration;
             variableDeclaration.ParseVarDecl(i);
-            FunctionBody.Children.push_back(variableDeclaration.VariableDeclarationNode);
+            if (variableDeclaration.VariableDeclarationNode.Children.size() >= 3) {
+                FunctionBody.Children.push_back(variableDeclaration.VariableDeclarationNode);
+            }
         } else if (currentValue == "fn") {
-            ParseFunctionDeclaration(i);
+            FunctionDeclaration nestedFunction;
+            nestedFunction.ParseFunctionDeclaration(i);
+            if (nestedFunction.FunctionDeclarationNode.Children.size() >= 3) {
+                FunctionBody.Children.push_back(nestedFunction.FunctionDeclarationNode);
+            }
         } else if (currentValue == "enum") {
             enumDeclaration.ParseEnumDeclaration(i);
             if (!enumDeclaration.EnumNode.Children.empty()) {
@@ -59,25 +102,35 @@ void FunctionDeclaration::ParseFunctionBody(int& i) {
             }
         } else if (currentValue == "if") {
             controlFlow.ParseIfStatement(i);
-            FunctionBody.Children.push_back(controlFlow.ControlFlowStatementNode);
+            if (!controlFlow.ControlFlowStatementNode.Value.empty()) {
+                FunctionBody.Children.push_back(controlFlow.ControlFlowStatementNode);
+            }
         } else if (currentValue == "else") {
             if (static_cast<size_t>(i) + 1 < Lexer::tokens.size() &&
                 Lexer::tokens[static_cast<size_t>(i) + 1].Value == "if") {
                 ++i;
                 controlFlow.ParseIfStatement(i);
-                controlFlow.ControlFlowStatementNode.Value = "else if";
+                if (!controlFlow.ControlFlowStatementNode.Value.empty()) {
+                    controlFlow.ControlFlowStatementNode.Value = "else if";
+                }
             } else {
                 controlFlow.ParseElseStatement(i);
             }
-            FunctionBody.Children.push_back(controlFlow.ControlFlowStatementNode);
+            if (!controlFlow.ControlFlowStatementNode.Value.empty()) {
+                FunctionBody.Children.push_back(controlFlow.ControlFlowStatementNode);
+            }
         } else if (currentValue == "while") {
             IterationStatement iteration;
             iteration.ParseWhileStatement(i, loopIndex);
-            FunctionBody.Children.push_back(iteration.WhileStatementNode);
+            if (!iteration.WhileStatementNode.Value.empty()) {
+                FunctionBody.Children.push_back(iteration.WhileStatementNode);
+            }
         } else if (currentValue == "for") {
             IterationStatement iteration;
             iteration.ParseForCondition(i, "");
-            FunctionBody.Children.push_back(iteration.ForStatementNode);
+            if (!iteration.ForStatementNode.Value.empty()) {
+                FunctionBody.Children.push_back(iteration.ForStatementNode);
+            }
         } else if (currentValue == "return") {
             jumpStatements.ParseReturnStatement(i);
             if (jumpStatements.ReturnStatementNode.Value == "return") {
@@ -94,60 +147,62 @@ void FunctionDeclaration::ParseFunctionBody(int& i) {
                 FunctionBody.Children.push_back(jumpStatements.ContinueStatementNode);
             }
         } else if (currentValue == "[") {
-            help.parseBlock(i);
+            FunctionBody.Children.push_back(help.parseBlock(i));
         } else {
             ++i;
         }
 
-        if (help.Universal(i, {true, true, true, "]"}) &&
-            (currentValue == "if" || currentValue == "else" || currentValue == "while" ||
-             currentValue == "[")) {
-            ++i;
-        }
-
         if (i <= previousIndex) {
-            return;
+            return false;
         }
     }
 
     if (help.Universal(i, {true, true, true, "]"})) {
         ++i;
+        return true;
     }
+    return false;
 }
-void FunctionDeclaration::ParseArguments(int& i)
+bool FunctionDeclaration::ParseArguments(int& i)
 {
     if (!help.Universal(i, {true, true})) {
-        return;
+        return false;
     }
     if (help.Universal(i, {false, false, true, "["})) {
-        return;
+        return true;
+    }
+    if (help.Universal(i, {false, false, true, "->"})) {
+        return true;
     }
     if (!help.Universal(i, {false, false, true, "("})) {
-        return;
+        return false;
     }
     ++i;
-
-    if (!help.Universal(i, {true, true})) {
-        return;
-    }
 
     if (help.Universal(i, {false, false, true, ")"})) {
         ++i;
-        return;
+        return true;
     }
 
-    if (!help.Universal(i, {false, false, true, "var"})) {
-        return;
+    while (true) {
+        if (!help.Universal(i, {false, false, true, "var"})) {
+            return false;
+        }
+
+        ParseVariableDeclFunc(i);
+        if (VariableDeclFunc.Value.empty()) {
+            return false;
+        }
+        Arguments.Children.push_back(VariableDeclFunc);
+
+        if (help.FindKeywords(i, ",")) {
+            continue;
+        }
+        if (help.FindKeywords(i, ")")) {
+            return true;
+        }
+        return false;
     }
-
-    ParseVariableDeclFunc(i);
-
-    if (!help.Universal(i, {false, false, true, ")"})) {
-        return;
-    }
-    Arguments.Children.push_back(VariableDeclFunc);
-    ++i;
-
 }
 
 void FunctionDeclaration::ParseVariableDeclFunc(int& i)
@@ -169,6 +224,7 @@ void FunctionDeclaration::ParseVariableDeclFunc(int& i)
     const bool isType =
         help.Universal(i, {false, false, true, "auto"}) ||
         help.Universal(i, {false, false, true, "int"}) ||
+        help.Universal(i, {false, false, true, "double"}) ||
         help.Universal(i, {false, false, true, "bool"}) ||
         help.Universal(i, {false, false, true, "string"}) ||
         help.Universal(i, {false, false, true, "char"});
